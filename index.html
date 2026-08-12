@@ -132,6 +132,39 @@
 
     .lien-dlt a:hover { color: var(--chaud); }
 
+    /* LIEN LINKEDIN — icône alignée sur .contact-icone dans la section contact */
+    .contact-icone .ico-li {
+      width: 1.05em;
+      height: 1.05em;
+      fill: currentColor;
+      vertical-align: -0.15em;
+    }
+
+    /* Rappel LinkedIn dans le footer — même traitement que .lien-dlt */
+    .lien-social {
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .lien-social a {
+      color: var(--terre);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition-rapide);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lien-social a:hover { color: var(--chaud); }
+
+    .lien-social .ico-li {
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+    }
+
     /* RESPONSIVE — mêmes points de rupture que style.css */
     @media (max-width: 1024px) {
       #chiffres { padding: 7rem 4%; }
@@ -580,6 +613,10 @@
             <span class="contact-icone">📞</span>
             <span class="contact-detail">06 83 01 08 92</span>
           </a>
+          <a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener" class="contact-ligne">
+            <span class="contact-icone" aria-hidden="true"><svg class="ico-li" viewBox="0 0 24 24" role="img" aria-label="LinkedIn"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></span>
+            <span class="contact-detail">linkedin.com/in/robertjoubin</span>
+          </a>
           <div class="contact-ligne">
             <span class="contact-icone">📍</span>
             <span class="contact-detail">Interventions partout en France & à distance</span>
@@ -616,6 +653,7 @@
   <footer>
     <p>© 2026 <span>Management au présent</span> · Robert Joubin · Metteur en scène · Pédagogue · Consultant · Tous droits réservés</p>
     <p class="lien-dlt">Robert Joubin mène par ailleurs des ateliers, des stages et des créations — <a href="https://robertjoubin.fr/" target="_blank" rel="noopener">Dans les Traces →</a></p>
+    <p class="lien-social"><a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener"><svg class="ico-li" viewBox="0 0 24 24" role="img" aria-label="LinkedIn"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>Retrouvez-moi sur LinkedIn →</a></p>
     <p style="margin-top: 0.8rem; font-size: 0.8rem;"><a href="#legal-modal" class="legal-link" id="open-legal">Mentions légales</a></p>
   </footer>
 
