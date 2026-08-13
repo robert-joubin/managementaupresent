@@ -9,7 +9,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=Spectral:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css"/>
@@ -182,28 +182,17 @@
     }
   </style>
 <style>
-    .lien-seuil-bloc { margin-top: 26px; }
-    .lien-seuil {
-      display: inline-block;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: inherit;
-      text-decoration: none;
-      opacity: 0.6;
-      border-bottom: 1px solid currentColor;
-      padding-bottom: 4px;
-      transition: opacity 0.35s ease;
+    .lien-seuil-bloc{
+      margin-top:30px;padding-top:20px;max-width:30rem;
+      border-top:1px solid currentColor;border-color:currentColor;
     }
-    .lien-seuil:hover { opacity: 1; }
-    .seuil-note {
-      display: block;
-      margin-top: 10px;
-      font-family: "DM Sans", sans-serif;
-      font-size: 12px;
-      opacity: 0.45;
+    .lien-seuil{
+      display:inline-block;font-family:"DM Sans",sans-serif;font-size:12px;
+      letter-spacing:.24em;text-transform:uppercase;color:inherit;text-decoration:none;
+      opacity:.95;transition:opacity .35s ease;
     }
+    .lien-seuil:hover{opacity:.6}
+    .seuil-note{display:block;margin-top:8px;font-family:"DM Sans",sans-serif;font-size:12px;opacity:.5}
   </style>
 </head>
 <body>
@@ -263,7 +252,7 @@
       </div>
 
       <div class="lien-seuil-bloc">
-        <a href="seuil-management.html" class="lien-seuil">passer le seuil</a>
+        <a href="#" class="lien-seuil" onclick="ouvrirSeuil(); return false;">passer le seuil</a>
         <span class="seuil-note">Une autre manière d'entrer. Trois minutes.</span>
       </div>
     </div>
@@ -723,12 +712,323 @@
 
   <!-- JS Interactivity -->
   <script src="app.js"></script>
+<div id="seuil-overlay" aria-hidden="true">
+  <div id="sx-glow"></div>
+  <div id="sx-stage">
+    <p class="sx-line" id="sx-l1"></p>
+    <p class="sx-sub" id="sx-l2"></p>
+    <div id="sx-mots"></div>
+  </div>
+  <div id="sx-trace"></div>
+  <a id="sx-porte" href="#" onclick="fermerSeuil(); return false;">entrer directement</a>
+</div>
+<style>
+#seuil-overlay{
+  position:fixed;inset:0;z-index:99999;display:none;
+  --ink:#0A0B0C;--chalk:#E3E6E6;--dim:#767C7E;--faint:#262A2B;
+  --sxserif:"Spectral",Georgia,serif;--sxmono:"IBM Plex Mono",ui-monospace,monospace;
+  background:var(--ink);color:var(--chalk);
+  font-family:var(--sxserif);font-weight:300;overflow:hidden;
+}
+#seuil-overlay.ouvert{display:block}
+#sx-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(70% 55% at 50% 40%,rgba(158,178,186,.07),transparent 72%);
+  opacity:0;transition:opacity 3s ease}
+#sx-glow.on{opacity:1}
+#sx-stage{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
+  justify-content:center;padding:clamp(1.6rem,5vw,5rem);max-width:56rem}
+#seuil-overlay .sx-line{font-family:var(--sxserif);font-weight:300;
+  font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.55;max-width:33ch;color:var(--chalk);
+  margin:0;opacity:0;transform:translateY(10px);transition:opacity 1.4s ease,transform 1.4s ease}
+#seuil-overlay .sx-line.in{opacity:1;transform:none}
+#seuil-overlay .sx-sub{font-family:var(--sxserif);font-weight:300;
+  font-size:clamp(1rem,1.5vw,1.12rem);color:var(--dim);max-width:40ch;margin:1.6rem 0 0;
+  line-height:1.7;opacity:0;transform:translateY(8px);
+  transition:opacity 1.4s ease .4s,transform 1.4s ease .4s}
+#seuil-overlay .sx-sub.in{opacity:1;transform:none}
+#sx-mots{display:flex;flex-wrap:wrap;gap:.9rem 2.4rem;margin-top:3.2rem;max-width:42rem}
+#seuil-overlay .sx-mot{background:none;border:0;border-radius:0;padding:0 0 .3rem;
+  font-family:var(--sxserif);font-weight:300;font-size:clamp(1.05rem,1.9vw,1.32rem);
+  color:var(--dim);cursor:pointer;border-bottom:1px solid transparent;text-transform:none;
+  letter-spacing:normal;box-shadow:none;
+  opacity:0;transform:translateY(6px);
+  transition:opacity 1.1s ease,transform 1.1s ease,color .5s ease,border-color .5s ease}
+#seuil-overlay .sx-mot.in{opacity:1;transform:none}
+#seuil-overlay .sx-mot:hover,#seuil-overlay .sx-mot:focus-visible{
+  color:var(--chalk);border-bottom-color:var(--faint);outline:none;background:none}
+#sx-trace{position:absolute;left:clamp(1.6rem,5vw,5rem);bottom:2.2rem;z-index:2;
+  font-family:var(--sxmono);font-size:11px;letter-spacing:.16em;color:#565C5E;
+  text-transform:lowercase;max-width:70vw;line-height:2}
+#sx-porte{position:absolute;right:clamp(1.6rem,5vw,5rem);bottom:2.2rem;z-index:2;
+  font-family:var(--sxmono);font-size:11px;letter-spacing:.16em;color:#454A4C;
+  text-decoration:none;border-bottom:1px solid transparent;opacity:0;
+  transition:color .5s,border-color .5s,opacity 1.5s}
+#sx-porte.in{opacity:1}
+#sx-porte:hover{color:var(--dim);border-bottom-color:var(--faint);text-decoration:none}
+#seuil-overlay #sx-pousser{align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;
+  font-family:var(--sxmono);font-size:12px;letter-spacing:.34em;color:var(--dim);text-transform:uppercase}
+#sx-barre{margin-top:1.1rem;width:16rem;max-width:60vw;height:1px;background:var(--faint);position:relative}
+#sx-barre i{position:absolute;top:0;bottom:0;left:0;width:0;background:var(--chalk);display:block}
+#sx-amorce{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem;margin-top:2.6rem;width:100%}
+#sx-prefixe{font-family:var(--sxserif);font-weight:300;font-size:1.3rem;color:var(--dim);white-space:nowrap}
+#seuil-overlay #sx-champ{flex:1 1 14rem;min-width:12rem;background:none;border:0;border-radius:0;
+  border-bottom:1px solid var(--faint);font-family:var(--sxserif);font-weight:300;font-size:1.3rem;
+  color:var(--chalk);padding:.4rem 0;box-shadow:none}
+#seuil-overlay #sx-champ:focus{outline:none;border-bottom-color:var(--dim)}
+#sx-err{font-family:var(--sxmono);font-size:11px;letter-spacing:.12em;color:#8E9A78;margin:.9rem 0 0;height:1em}
+#seuil-overlay .sx-envers{margin:2rem 0 0;font-family:var(--sxserif);font-size:1rem;color:var(--dim);
+  max-width:38ch;line-height:1.75;opacity:0;transition:opacity 1.6s ease 1s}
+#seuil-overlay .sx-envers.in{opacity:1}
+#sx-sortie{display:inline-block;margin-top:2.6rem;font-family:var(--sxserif);font-size:1.25rem;
+  color:var(--chalk);text-decoration:none;border-bottom:1px solid var(--faint);padding-bottom:.25rem;
+  opacity:0;transition:opacity 1.6s ease 2s,border-color .5s}
+#sx-sortie.in{opacity:1}
+#sx-sortie:hover{border-bottom-color:var(--chalk);text-decoration:none}
+#sx-signature{margin:3.4rem 0 0;font-family:var(--sxmono);font-size:11px;letter-spacing:.1em;
+  color:#565C5E;line-height:2.1;max-width:46ch;opacity:0;transition:opacity 2s ease 3s}
+#sx-signature.in{opacity:1}
+#seuil-overlay #sx-reprendre{background:none;border:0;padding:0;margin-top:2rem;cursor:pointer;
+  font-family:var(--sxmono);font-size:11px;letter-spacing:.16em;color:#3B3F41;
+  text-transform:none;opacity:0;transition:opacity 2s ease 4s,color .4s}
+#sx-reprendre.in{opacity:1}
+#sx-reprendre:hover{color:var(--dim)}
+@media (prefers-reduced-motion:reduce){#seuil-overlay *{transition-duration:.01ms!important}}
+</style>
 <script>
-try {
-  if (location.protocol !== 'file:' && localStorage.getItem('seuil-passe')) {
-    document.querySelectorAll('.lien-seuil-bloc').forEach(function(e){ e.style.display='none'; });
+(function(){
+var A={ctx:null,g:null,gs:null};
+function audioStart(){
+  if(A.ctx)return;
+  try{A.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return;}
+  var c=A.ctx,len=c.sampleRate*4;
+  function noise(){
+    var b=c.createBuffer(1,len,c.sampleRate),d=b.getChannelData(0),last=0;
+    for(var i=0;i<len;i++){var w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=last*3.2;}
+    var s=c.createBufferSource();s.buffer=b;s.loop=true;return s;
   }
-} catch (e) {}
+  var f=noise(),lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=170;
+  A.g=c.createGain();A.g.gain.value=.05;
+  f.connect(lp);lp.connect(A.g);A.g.connect(c.destination);f.start();
+  var o=noise(),bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=880;bp.Q.value=.6;
+  A.gs=c.createGain();A.gs.gain.value=.055;
+  o.connect(bp);bp.connect(A.gs);A.gs.connect(c.destination);o.start();
+  var lfo=c.createOscillator();lfo.frequency.value=.11;
+  var lg=c.createGain();lg.gain.value=340;lfo.connect(lg);lg.connect(bp.frequency);lfo.start();
+}
+function bureau(v,t){if(A.ctx)A.gs.gain.linearRampToValueAtTime(v,A.ctx.currentTime+(t||1));}
+function fond(v,t){if(A.ctx)A.g.gain.linearRampToValueAtTime(v,A.ctx.currentTime+(t||1));}
+function stopAudio(){if(A.ctx){try{A.ctx.close();}catch(e){}A.ctx=null;}}
+function toc(){
+  if(!A.ctx)return;var c=A.ctx,t=c.currentTime;
+  var o=c.createOscillator();o.type="sine";o.frequency.setValueAtTime(112,t);
+  o.frequency.exponentialRampToValueAtTime(58,t+.07);
+  var g=c.createGain();g.gain.setValueAtTime(.09,t);g.gain.exponentialRampToValueAtTime(.0008,t+.14);
+  o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.18);
+}
+var OV,L1,L2,MOTS,TRACE,PORTE,GLOW;
+var trace=[],ecrit="",theme="",t0=0,gronde=false,timers=[];
+function T(fn,ms){var id=setTimeout(fn,ms);timers.push(id);return id;}
+function stopT(){timers.forEach(clearTimeout);timers=[];}
+function clear(){MOTS.innerHTML="";L1.className="sx-line";L2.className="sx-sub";L1.textContent="";L2.textContent="";}
+function dis(a,b,cb){
+  clear();
+  T(function(){L1.innerHTML=a;L1.classList.add("in");},120);
+  if(b)T(function(){L2.innerHTML=b;L2.classList.add("in");},240);
+  if(cb)T(cb,1500);
+}
+function choix(liste,fn){
+  MOTS.innerHTML="";t0=Date.now();
+  liste.forEach(function(o,i){
+    var b=document.createElement("button");
+    b.className="sx-mot";b.type="button";b.textContent=o[0];
+    b.onclick=function(){
+      var dt=Date.now()-t0;toc();
+      if(dt<1300&&!gronde){gronde=true;vite(function(){choix(liste,fn);});return;}
+      trace.push(o[0]);TRACE.textContent=trace.join("   ·   ");
+      fn(o[1]);
+    };
+    MOTS.appendChild(b);
+    T(function(){b.classList.add("in");},260*i+300);
+  });
+}
+function vite(retour){
+  clear();
+  T(function(){
+    L1.innerHTML="Vous allez vite.";L1.classList.add("in");
+    L2.innerHTML="C'est peut-être l'habitude. On peut recommencer.";L2.classList.add("in");
+  },200);
+  T(retour,2800);
+}
+var Q2={
+ equipe:{p:"Une équipe ne dysfonctionne pas. Elle protège quelque chose.",
+  o:[["ça ne se dit pas","equipe"],["chacun travaille de son côté","equipe"],["il y a eu un avant","equipe"],["je viens d'arriver","equipe"]]},
+ personne:{p:"Il y a souvent une personne dont on ne parle qu'entre soi.",
+  o:[["je n'arrive pas à lui dire","personne"],["il tient tout, et ça m'inquiète","personne"],["elle s'éteint","personne"],["c'est peut-être moi","soi"]]},
+ parole:{p:"Vous savez ce que vous voulez dire. Ce n'est pas ça, le problème.",
+  o:[["je perds la salle","voix"],["je récite","voix"],["ma voix ne suit pas","voix"],["on ne me croit pas","voix"]]},
+ soi:{p:"Diriger se fait presque toujours seul.",
+  o:[["je décide sans personne","soi"],["je ne sais plus si j'ai raison","soi"],["je tiens, mais","soi"],["j'y pense le dimanche soir","soi"]]}
+};
+var SORTIES={
+ equipes:{p:"Une équipe qui ne se parle pas n'a pas un problème de communication.<br>Elle a appris à se protéger.",
+  e:"Ce qui remontera ne sera pas forcément ce que vous vouliez voir. C'est à cette condition que quelque chose bouge.",
+  d:"Dynamiques d'équipe",u:"services"},
+ seminaire:{p:"Un séminaire où l'on regarde des slides ne change rien.<br>Un séminaire où l'on fait quelque chose ensemble, si.",
+  e:"Il faut du temps, et il faut que vous y soyez comme les autres. Pas au fond de la salle, à regarder.",
+  d:"Séminaires d'équipe",u:"services"},
+ parole:{p:"Il ne s'agit pas d'apprendre à parler en public.<br>Il s'agit de devenir celui qui parle.",
+  e:"Vos mots ne sont pas le problème. C'est ce que fait votre corps pendant que vous les dites — et ça ne se corrige pas sur le papier.",
+  d:"Prise de parole",u:"services"},
+ dirigeant:{p:"Personne ne vous dit ce que vous auriez pu faire autrement.<br>Les questions s'accumulent, sans interlocuteur.",
+  e:"Ce n'est ni du conseil ni de la thérapie. C'est quelqu'un avec qui reprendre, régulièrement, dans la durée.",
+  d:"Accompagnement des dirigeants",u:"services"},
+ rien:{p:"Vous n'êtes peut-être pas venu chercher un prestataire.",
+  e:"La question que vous venez d'écrire vaut plus que n'importe quelle intervention. Gardez-la telle quelle.",
+  d:"Un premier échange, trente minutes",u:"contact"}
+};
+function resoudre(th,fin){
+  if(th==="voix")return"parole";
+  if(fin==="tous")return(th==="equipe")?"equipes":"seminaire";
+  if(fin==="quelques")return(th==="soi")?"dirigeant":"equipes";
+  if(fin==="seul")return"dirigeant";
+  return"rien";
+}
+function vitrine(){
+  clear();TRACE.textContent="";trace=[];ecrit="";gronde=false;GLOW.classList.remove("on");
+  T(function(){
+    L1.innerHTML="Il est 19 h 40. Tout le monde est parti.";L1.classList.add("in");
+    L2.innerHTML="Vous repassez la réunion de ce matin dans votre tête.";L2.classList.add("in");
+  },600);
+  T(function(){PORTE.classList.add("in");},3600);
+  T(seuil,3400);
+}
+function seuil(){
+  MOTS.innerHTML="";
+  var b=document.createElement("button");b.id="sx-pousser";b.type="button";
+  b.className="sx-mot";b.textContent="fermer la porte";
+  var w=document.createElement("div");w.id="sx-barre";var f=document.createElement("i");w.appendChild(f);
+  MOTS.appendChild(b);MOTS.appendChild(w);
+  T(function(){b.classList.add("in");},300);
+  var t=null,p=0,fini=false;
+  function finir(){
+    if(fini)return;fini=true;
+    if(t){clearInterval(t);t=null;}
+    f.style.transition="width .4s ease";f.style.width="100%";
+    bureau(.002,1.1);fond(.03,1.4);
+    T(ouvrir,900);
+  }
+  function down(e){
+    if(fini)return;e.preventDefault();audioStart();
+    if(t)return;
+    t=setInterval(function(){
+      p+=2.2;f.style.width=Math.min(p,100)+"%";
+      bureau(Math.max(.055*(1-p/100),.002),.05);
+      if(p>=100)finir();
+    },16);
+  }
+  function up(){if(fini||!t)return;clearInterval(t);t=null;finir();}
+  b.addEventListener("pointerdown",down);
+  b.addEventListener("keydown",function(e){
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();audioStart();finir();}});
+  window.addEventListener("pointerup",up);
+  window.addEventListener("pointercancel",up);
+}
+function ouvrir(){
+  GLOW.classList.add("on");toc();
+  dis("Voilà.","Personne n'écoute. On peut parler franchement.",function(){T(accueil,600);});
+}
+function accueil(){
+  dis("Qu'est-ce qui vous occupe, en ce moment ?","",function(){
+    T(function(){
+      choix([["une équipe","equipe"],["quelqu'un en particulier","personne"],["une prise de parole","parole"],["vous","soi"]],q2);
+    },500);
+  });
+}
+function q2(k){var s=Q2[k];dis(s.p,"",function(){choix(s.o,function(th){theme=th;ecrire();});});}
+function ecrire(){
+  bureau(0,.4);fond(.012,1.2);clear();
+  T(function(){
+    L1.innerHTML="Maintenant, dites-le.";L1.classList.add("in");
+    L2.innerHTML="Finissez la phrase. Une ligne, comme elle vient — ce n'est pas un formulaire, personne ne la lira. Mais tant qu'elle n'est pas écrite, elle reste une gêne.";
+    L2.classList.add("in");
+    var row=document.createElement("div");row.id="sx-amorce";
+    var pre=document.createElement("span");pre.id="sx-prefixe";pre.textContent="Ce qui coince, c'est";
+    var i=document.createElement("input");i.id="sx-champ";i.type="text";
+    i.setAttribute("aria-label","finissez la phrase : ce qui coince, c'est");
+    row.appendChild(pre);row.appendChild(i);
+    var e=document.createElement("p");e.id="sx-err";
+    var v=document.createElement("button");v.type="button";v.className="sx-mot";v.textContent="c'est écrit";
+    v.style.marginTop="1.4rem";
+    MOTS.appendChild(row);MOTS.appendChild(e);MOTS.appendChild(v);
+    T(function(){i.focus();},400);
+    function suite(){
+      if(i.value.trim().length<4){e.textContent="allez jusqu'au bout de la phrase";i.focus();return;}
+      ecrit=i.value.trim();toc();fond(.04,2.5);q3();
+    }
+    i.addEventListener("input",function(){
+      e.textContent="";
+      if(i.value.trim().length>=4)v.classList.add("in");else v.classList.remove("in");
+    });
+    i.addEventListener("keydown",function(ev){if(ev.key==="Enter"){ev.preventDefault();suite();}});
+    v.addEventListener("click",suite);
+  },900);
+}
+function q3(){
+  dis("Et ça se travaillerait…","",function(){
+    choix([["avec toute l'équipe","tous"],["avec quelques-uns","quelques"],["seul, d'abord","seul"],["je ne sais pas encore","flou"]],
+      function(f){envers(resoudre(theme,f));});
+  });
+}
+function envers(k){
+  fond(.02,2);GLOW.classList.remove("on");clear();
+  T(function(){
+    L1.innerHTML="Avant d'aller plus loin.";L1.classList.add("in");
+    L2.innerHTML="Aucune intervention ne transforme une organisation. Elle rend visible ce que tout le monde sait déjà et que personne ne dit.<br><br>Ce qui vient après, c'est vous qui le portez. Il n'y a pas de sous-traitance possible.";
+    L2.classList.add("in");
+  },400);
+  T(function(){choix([["je continue","go"]],function(){fond(.04,3);sortie(k);});},5400);
+}
+function sortie(k){
+  var s=SORTIES[k];clear();GLOW.classList.add("on");
+  T(function(){L1.innerHTML=s.p;L1.classList.add("in");},300);
+  T(function(){
+    var e=document.createElement("p");e.className="sx-envers";e.textContent=s.e;
+    var a=document.createElement("a");a.id="sx-sortie";a.href="#"+s.u;a.textContent=s.d;
+    a.onclick=function(){fermerSeuil();location.hash="#"+s.u;return false;};
+    var sg=document.createElement("p");sg.id="sx-signature";
+    sg.innerHTML="vous êtes passé par : "+trace.join(" · ")+
+      "<br>vous avez écrit : ce qui coince, c'est "+ecrit.replace(/</g,"&lt;")+
+      "<br><br>Vous n'avez rien acheté. Vous avez formulé une question.<br>C'est déjà du travail.";
+    var r=document.createElement("button");r.id="sx-reprendre";r.type="button";r.textContent="rouvrir la porte";
+    r.onclick=function(){stopT();vitrine();};
+    MOTS.appendChild(e);MOTS.appendChild(a);MOTS.appendChild(sg);MOTS.appendChild(r);
+    TRACE.textContent="";
+    T(function(){e.classList.add("in");a.classList.add("in");sg.classList.add("in");r.classList.add("in");},60);
+  },900);
+}
+window.ouvrirSeuil=function(){
+  OV=document.getElementById("seuil-overlay");
+  L1=document.getElementById("sx-l1");L2=document.getElementById("sx-l2");
+  MOTS=document.getElementById("sx-mots");TRACE=document.getElementById("sx-trace");
+  PORTE=document.getElementById("sx-porte");GLOW=document.getElementById("sx-glow");
+  OV.classList.add("ouvert");OV.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  stopT();vitrine();
+};
+window.fermerSeuil=function(){
+  stopT();stopAudio();
+  var o=document.getElementById("seuil-overlay");
+  o.classList.remove("ouvert");o.setAttribute("aria-hidden","true");
+  PORTE.classList.remove("in");
+  document.body.style.overflow="";
+};
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){
+    var o=document.getElementById("seuil-overlay");
+    if(o&&o.classList.contains("ouvert"))window.fermerSeuil();
+  }
+});
+})();
 </script>
 </body>
 </html>
