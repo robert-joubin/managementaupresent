@@ -725,7 +725,7 @@
   <script src="app.js"></script>
 <script>
 try {
-  if (localStorage.getItem('seuil-passe')) {
+  if (location.protocol !== 'file:' && localStorage.getItem('seuil-passe')) {
     document.querySelectorAll('.lien-seuil-bloc').forEach(function(e){ e.style.display='none'; });
   }
 } catch (e) {}
