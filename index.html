@@ -181,6 +181,30 @@
       .chiffres-grille { grid-template-columns: 1fr; }
     }
   </style>
+<style>
+    .lien-seuil-bloc { margin-top: 26px; }
+    .lien-seuil {
+      display: inline-block;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.6;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 4px;
+      transition: opacity 0.35s ease;
+    }
+    .lien-seuil:hover { opacity: 1; }
+    .seuil-note {
+      display: block;
+      margin-top: 10px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      opacity: 0.45;
+    }
+  </style>
 </head>
 <body>
 
@@ -236,6 +260,11 @@
       <div class="hero-boutons">
         <a href="#contact" class="btn-principal">Parlons-en</a>
         <a href="#presentation" class="btn-secondaire">Découvrir</a>
+      </div>
+
+      <div class="lien-seuil-bloc">
+        <a href="seuil-management.html" class="lien-seuil">passer le seuil</a>
+        <span class="seuil-note">Une autre manière d'entrer. Trois minutes.</span>
       </div>
     </div>
 
@@ -694,5 +723,12 @@
 
   <!-- JS Interactivity -->
   <script src="app.js"></script>
+<script>
+try {
+  if (localStorage.getItem('seuil-passe')) {
+    document.querySelectorAll('.lien-seuil-bloc').forEach(function(e){ e.style.display='none'; });
+  }
+} catch (e) {}
+</script>
 </body>
 </html>
