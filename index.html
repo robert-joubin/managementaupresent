@@ -860,39 +860,73 @@ function vite(retour){
   T(retour,2800);
 }
 var Q2={
- equipe:{p:"Une équipe ne dysfonctionne pas. Elle protège quelque chose.",
-  o:[["ça ne se dit pas","equipe"],["chacun travaille de son côté","equipe"],["il y a eu un avant","equipe"],["je viens d'arriver","equipe"]]},
- personne:{p:"Il y a souvent une personne dont on ne parle qu'entre soi.",
-  o:[["je n'arrive pas à lui dire","personne"],["il tient tout, et ça m'inquiète","personne"],["elle s'éteint","personne"],["c'est peut-être moi","soi"]]},
+ equipe:{p:"Une équipe qui grince ne grince pas par hasard. Elle protège quelque chose.",
+  o:[["ça ne se dit pas","nondit"],["chacun travaille de son côté","separes"],["il y a eu un avant","avant"],["je viens d'arriver","nouveau"]]},
+ personne:{p:"Il y a souvent une personne qui vous préoccupe.",
+  o:[["je n'arrive pas à lui dire","dire"],["il tient tout, et ça m'inquiète","pilier"],["elle s'éteint","eteint"],["c'est peut-être moi","seul"]]},
  parole:{p:"Vous savez ce que vous voulez dire. Ce n'est pas ça, le problème.",
-  o:[["je perds la salle","voix"],["je récite","voix"],["ma voix ne suit pas","voix"],["on ne me croit pas","voix"]]},
+  o:[["je perds la salle","salle"],["je récite","recite"],["ma voix ne suit pas","corps"],["on ne me croit pas","croire"]]},
  soi:{p:"Diriger se fait presque toujours seul.",
-  o:[["je décide sans personne","soi"],["je ne sais plus si j'ai raison","soi"],["je tiens, mais","soi"],["j'y pense le dimanche soir","soi"]]}
+  o:[["je décide sans personne","seul"],["je ne sais plus si j'ai raison","doute"],["je tiens, mais","tenir"],["j'y pense le dimanche soir","dimanche"]]}
+};
+var Q3={
+ nondit:{p:"Ce qui ne se dit pas en réunion se dit ailleurs, autrement.",
+  o:[["il faudrait que ça se dise","equipes"],["il faudrait qu'on fasse autre chose ensemble","seminaire"],["il faudrait surtout que je m'y prenne autrement","dirigeant"]]},
+ separes:{p:"Travailler côte à côte, ce n'est pas travailler ensemble.",
+  o:[["un moment hors du bureau","seminaire"],["quelque chose dans le travail lui-même","surmesure"],["qu'ils se voient travailler","situations"]]},
+ avant:{p:"Une équipe garde la mémoire de ce qui s'est passé, même quand personne n'en parle.",
+  o:[["il faudrait nommer ce qui a eu lieu","equipes"],["il faudrait repartir sur autre chose","seminaire"],["je ne sais pas si c'est mon rôle","dirigeant"]]},
+ nouveau:{p:"Vous héritez d'une histoire que vous n'avez pas vécue.",
+  o:[["comprendre avant d'agir","equipes"],["qu'on se rencontre vraiment","seminaire"],["c'est ma place qui n'est pas claire","dirigeant"]]},
+ dire:{p:"Ce n'est pas la phrase qui manque. C'est le moment, et le corps qui va avec.",
+  o:[["m'entraîner à le dire","parole"],["préparer ça avec quelqu'un","dirigeant"],["que ça se passe devant l'équipe","equipes"]]},
+ pilier:{p:"Celui qui tient tout finit par empêcher les autres de tenir quelque chose.",
+  o:[["redistribuer","equipes"],["qu'il le voie lui-même","situations"],["lui parler, d'abord","dirigeant"]]},
+ eteint:{p:"Quelqu'un qui se retire le fait longtemps avant qu'on le remarque.",
+  o:[["lui rendre une place","equipes"],["comprendre, d'abord","dirigeant"],["je ne suis pas sûr que ce soit à moi de m'en occuper","rien"]]},
+ salle:{p:"Une salle ne décroche pas sur ce que vous dites. Elle décroche quand vous n'êtes plus là.",
+  o:[["c'est moi, seul, devant eux","parole"],["c'est toute l'équipe qui devrait travailler ça","surmesure"],["je voudrais me voir faire","situations"]]},
+ recite:{p:"Réciter, c'est se protéger. Ça se comprend.",
+  o:[["m'en défaire","parole"],["comprendre de quoi je me protège","dirigeant"],["essayer autrement, en situation","situations"]]},
+ corps:{p:"Dans une prise de parole, les mots ne sont pas le discours.",
+  o:[["travailler ça pour de bon","parole"],["savoir comment ça se passerait","processus"],["que mon équipe le travaille aussi","surmesure"]]},
+ croire:{p:"On ne croit pas un discours. On croit quelqu'un.",
+  o:[["alors c'est moi qui dois travailler","parole"],["alors c'est ma place dans l'équipe","dirigeant"],["alors je ne sais pas par où prendre ça","rien"]]},
+ seul:{p:"Décider seul, ce n'est pas le problème. Ne jamais revenir sur ce que la décision a produit, si.",
+  o:[["quelqu'un avec qui reprendre","dirigeant"],["que l'équipe décide aussi","equipes"],["voir comment je m'y prends","situations"]]},
+ doute:{p:"Le doute n'affaiblit pas un dirigeant. Il ne devient un problème que lorsqu'on le garde pour soi.",
+  o:[["un regard extérieur","dirigeant"],["entendre ce que l'équipe en pense","equipes"],["savoir comment ça se passerait","processus"]]},
+ tenir:{p:"Tenir est un mot de charge. Personne ne demande jamais combien elle pèse.",
+  o:[["personne ne me le demande, en effet","dirigeant"],["l'équipe pourrait en porter une part","seminaire"],["je préfère ne pas creuser maintenant","rien"]]},
+ dimanche:{p:"Ce qui revient le dimanche soir n'est presque jamais le travail lui-même.",
+  o:[["c'est une personne","dirigeant"],["c'est l'ambiance de l'équipe","equipes"],["c'est une échéance où je dois parler","parole"]]}
 };
 var SORTIES={
  equipes:{p:"Une équipe qui ne se parle pas n'a pas un problème de communication.<br>Elle a appris à se protéger.",
   e:"Ce qui remontera ne sera pas forcément ce que vous vouliez voir. C'est à cette condition que quelque chose bouge.",
   d:"Dynamiques d'équipe",u:"services"},
  seminaire:{p:"Un séminaire où l'on regarde des slides ne change rien.<br>Un séminaire où l'on fait quelque chose ensemble, si.",
-  e:"Il faut du temps, et il faut que vous y soyez comme les autres. Pas au fond de la salle, à regarder.",
+  e:"Il faut du temps, et il faut que vous soyez là comme les autres. Pas au fond de la salle, à regarder.",
   d:"Séminaires d'équipe",u:"services"},
  parole:{p:"Il ne s'agit pas d'apprendre à parler en public.<br>Il s'agit de devenir celui qui parle.",
-  e:"Vos mots ne sont pas le problème. C'est ce que fait votre corps pendant que vous les dites — et ça ne se corrige pas sur le papier.",
-  d:"Prise de parole",u:"services"},
+  e:"Vos mots ne sont pas le problème. C'est ce qui se passe en vous, dans votre corps, pendant que vous les dites — et ça ne se corrige pas sur le papier.",
+  d:"Prise de parole en public",u:"services"},
  dirigeant:{p:"Personne ne vous dit ce que vous auriez pu faire autrement.<br>Les questions s'accumulent, sans interlocuteur.",
   e:"Ce n'est ni du conseil ni de la thérapie. C'est quelqu'un avec qui reprendre, régulièrement, dans la durée.",
   d:"Accompagnement des dirigeants",u:"services"},
+ situations:{p:"Personne ne se voit travailler.<br>On se raconte comment on travaille — ce n'est pas la même chose.",
+  e:"Il faudra accepter d'être vu par ses collègues en train de s'y prendre mal. C'est précisément là que ça sert.",
+  d:"Mises en situation théâtrales",u:"services"},
+ surmesure:{p:"Il n'y a pas de programme à vous vendre.<br>Il y a votre situation, et ce qu'on en fait.",
+  e:"Ça demande de décrire précisément ce qui se passe chez vous — pas la version officielle, celle qu'on raconte à l'extérieur. C'est souvent le pas le plus difficile.",
+  d:"Ateliers sur mesure",u:"services"},
+ processus:{p:"Avant de savoir quoi, vous voulez sans doute savoir comment.",
+  e:"Ça commence toujours par un échange où vous parlez et où je ne propose rien.",
+  d:"Comment ça se passe",u:"processus"},
  rien:{p:"Vous n'êtes peut-être pas venu chercher un prestataire.",
   e:"La question que vous venez d'écrire vaut plus que n'importe quelle intervention. Gardez-la telle quelle.",
   d:"Un premier échange, trente minutes",u:"contact"}
 };
-function resoudre(th,fin){
-  if(th==="voix")return"parole";
-  if(fin==="tous")return(th==="equipe")?"equipes":"seminaire";
-  if(fin==="quelques")return(th==="soi")?"dirigeant":"equipes";
-  if(fin==="seul")return"dirigeant";
-  return"rien";
-}
 function vitrine(){
   clear();TRACE.textContent="";trace=[];ecrit="";gronde=false;GLOW.classList.remove("on");
   T(function(){
@@ -949,7 +983,7 @@ function ecrire(){
   bureau(0,.4);fond(.012,1.2);clear();
   T(function(){
     L1.innerHTML="Maintenant, dites-le.";L1.classList.add("in");
-    L2.innerHTML="Finissez la phrase. Une ligne, comme elle vient — ce n'est pas un formulaire, personne ne la lira. Mais tant qu'elle n'est pas écrite, elle reste une gêne.";
+    L2.innerHTML="Finissez la phrase. Une ligne, comme elle vient. Plus vous êtes sincère, plus vous risquez d'être conduit vers ce qui vous concerne vraiment — et tant qu'elle n'est pas écrite, elle reste une gêne. Ce n'est pas un formulaire : personne ne la lira.";
     L2.classList.add("in");
     var row=document.createElement("div");row.id="sx-amorce";
     var pre=document.createElement("span");pre.id="sx-prefixe";pre.textContent="Ce qui coince, c'est";
@@ -974,16 +1008,14 @@ function ecrire(){
   },900);
 }
 function q3(){
-  dis("Et ça se travaillerait…","",function(){
-    choix([["avec toute l'équipe","tous"],["avec quelques-uns","quelques"],["seul, d'abord","seul"],["je ne sais pas encore","flou"]],
-      function(f){envers(resoudre(theme,f));});
-  });
+  var s=Q3[theme]||Q3.seul;
+  dis(s.p,"",function(){choix(s.o,function(k){envers(k);});});
 }
 function envers(k){
   fond(.02,2);GLOW.classList.remove("on");clear();
   T(function(){
     L1.innerHTML="Avant d'aller plus loin.";L1.classList.add("in");
-    L2.innerHTML="Aucune intervention ne transforme une organisation. Elle rend visible ce que tout le monde sait déjà et que personne ne dit.<br><br>Ce qui vient après, c'est vous qui le portez. Il n'y a pas de sous-traitance possible.";
+    L2.innerHTML="Aucune intervention ne transforme une organisation. Elle rend visible ce que, finalement, tout le monde sait déjà et que personne ne dit.<br><br>Ce qui vient après, c'est vous qui le portez. Il n'y a pas de sous-traitance possible.";
     L2.classList.add("in");
   },400);
   T(function(){choix([["je continue","go"]],function(){fond(.04,3);sortie(k);});},5400);
@@ -998,7 +1030,7 @@ function sortie(k){
     var sg=document.createElement("p");sg.id="sx-signature";
     sg.innerHTML="vous êtes passé par : "+trace.join(" · ")+
       "<br>vous avez écrit : ce qui coince, c'est "+ecrit.replace(/</g,"&lt;")+
-      "<br><br>Vous n'avez rien acheté. Vous avez formulé une question.<br>C'est déjà du travail.";
+      "<br><br>Vous n'avez rien acheté. Vous avez formulé une question.<br>C'est déjà un pas.";
     var r=document.createElement("button");r.id="sx-reprendre";r.type="button";r.textContent="rouvrir la porte";
     r.onclick=function(){stopT();vitrine();};
     MOTS.appendChild(e);MOTS.appendChild(a);MOTS.appendChild(sg);MOTS.appendChild(r);
