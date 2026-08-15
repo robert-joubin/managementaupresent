@@ -165,16 +165,24 @@
       fill: currentColor;
     }
 
-    /* FOOTER — fiabilité du clic sur mobile.
-       Le lien passait sous la barre d'outils du navigateur ou sous un calque
-       voisin ; on le remonte, on l'isole et on agrandit sa zone tactile. */
-    footer { position: relative; z-index: 2; }
-    footer p { position: relative; z-index: 3; }
-    /* le footer remontant d'un cran, on garde la modale au-dessus */
-    #legal-modal.modal { z-index: 10000; }
+    /* CAUSE RÉELLE DU LIEN LINKEDIN INCLIQUABLE SUR MOBILE.
+       .toast-container (style.css l.1137) est en position:fixed, bottom:2rem,
+       right:2rem, z-index:2000, et reste dans la page en permanence. Le .toast
+       qu'il contient est en visibility:hidden — invisible, mais il occupe
+       toujours sa place, et son texte par défaut ("Merci …, votre message a
+       bien été envoyé !") lui donne une largeur d'environ 350px.
+       Sur grand écran cette boîte reste dans le coin bas-droit, loin du lien
+       centré : aucun effet. Sur téléphone elle couvre toute la bande basse de
+       l'écran — exactement là où tombe le lien LinkedIn une fois en bas de page.
+       Le doigt touche donc la boîte fantôme, pas le lien.
+       Correctif : la boîte laisse passer les clics, le toast les reprend
+       seulement quand il s'affiche vraiment. */
+    .toast-container { pointer-events: none; }
+    .toast { pointer-events: none; }
+    .toast.show { pointer-events: auto; }
+
+    /* FOOTER — confort tactile */
     footer a {
-      position: relative;
-      z-index: 3;
       touch-action: manipulation;
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0.14);
     }
