@@ -165,6 +165,31 @@
       fill: currentColor;
     }
 
+    /* FOOTER — fiabilité du clic sur mobile.
+       Le lien passait sous la barre d'outils du navigateur ou sous un calque
+       voisin ; on le remonte, on l'isole et on agrandit sa zone tactile. */
+    footer { position: relative; z-index: 2; }
+    footer p { position: relative; z-index: 3; }
+    /* le footer remontant d'un cran, on garde la modale au-dessus */
+    #legal-modal.modal { z-index: 10000; }
+    footer a {
+      position: relative;
+      z-index: 3;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(255, 255, 255, 0.14);
+    }
+    .lien-social a {
+      /* zone tactile de 44px minimum, sans décaler la mise en page */
+      padding: 0.6rem 0.3rem;
+      margin: -0.6rem -0.3rem;
+      min-height: 44px;
+    }
+    .lien-social a svg,
+    .lien-dlt a svg { pointer-events: none; }
+    footer > p:last-child {
+      margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+    }
+
     /* RESPONSIVE — mêmes points de rupture que style.css */
     @media (max-width: 1024px) {
       #chiffres { padding: 7rem 4%; }
@@ -631,7 +656,7 @@
             <span class="contact-icone">📞</span>
             <span class="contact-detail">06 83 01 08 92</span>
           </a>
-          <a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener" class="contact-ligne">
+          <a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener noreferrer" class="contact-ligne">
             <span class="contact-icone" aria-hidden="true"><svg class="ico-li" viewBox="0 0 24 24" role="img" aria-label="LinkedIn"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></span>
             <span class="contact-detail">linkedin.com/in/robertjoubin</span>
           </a>
@@ -671,7 +696,7 @@
   <footer>
     <p>© 2026 <span>Management au présent</span> · Robert Joubin · Metteur en scène · Pédagogue · Consultant · Tous droits réservés</p>
     <p class="lien-dlt">Robert Joubin mène par ailleurs des ateliers, des stages et des créations — <a href="https://robertjoubin.fr/" target="_blank" rel="noopener">Dans les Traces →</a></p>
-    <p class="lien-social"><a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener"><svg class="ico-li" viewBox="0 0 24 24" role="img" aria-label="LinkedIn"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>Retrouvez-moi sur LinkedIn →</a></p>
+    <p class="lien-social"><a href="https://www.linkedin.com/in/robertjoubin" target="_blank" rel="noopener noreferrer"><svg class="ico-li" viewBox="0 0 24 24" role="img" aria-label="LinkedIn"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>Retrouvez-moi sur LinkedIn →</a></p>
     <p style="margin-top: 0.8rem; font-size: 0.8rem;"><a href="#legal-modal" class="legal-link" id="open-legal">Mentions légales</a></p>
   </footer>
 
@@ -731,12 +756,22 @@
   font-family:var(--sxserif);font-weight:300;overflow:hidden;
 }
 #seuil-overlay.ouvert{display:block}
+/* hauteur réelle de la fenêtre mobile, barres du navigateur déduites */
+@supports (height:100dvh){#seuil-overlay{height:100dvh}}
 #sx-glow{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(70% 55% at 50% 40%,rgba(158,178,186,.07),transparent 72%);
   opacity:0;transition:opacity 3s ease}
 #sx-glow.on{opacity:1}
 #sx-stage{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;
-  justify-content:center;padding:clamp(1.6rem,5vw,5rem);max-width:56rem}
+  padding:clamp(1.6rem,5vw,5rem);
+  padding-top:calc(clamp(1.6rem,5vw,5rem) + env(safe-area-inset-top,0px) + 1rem);
+  padding-bottom:calc(clamp(1.6rem,5vw,5rem) + env(safe-area-inset-bottom,0px) + 4rem);
+  max-width:56rem;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+/* Centrage vertical qui ne coupe jamais le haut : quand le texte est plus grand
+   que l'écran, les marges auto se résorbent, le texte repart du haut et défile. */
+#sx-stage::before{content:"";display:block;flex:0 0 0;margin-top:auto}
+#sx-stage::after{content:"";display:block;flex:0 0 0;margin-bottom:auto}
 #seuil-overlay .sx-line{font-family:var(--sxserif);font-weight:300;
   font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.55;max-width:33ch;color:var(--chalk);
   margin:0;opacity:0;transform:translateY(10px);transition:opacity 1.4s ease,transform 1.4s ease}
@@ -756,10 +791,10 @@
 #seuil-overlay .sx-mot.in{opacity:1;transform:none}
 #seuil-overlay .sx-mot:hover,#seuil-overlay .sx-mot:focus-visible{
   color:var(--chalk);border-bottom-color:var(--faint);outline:none;background:none}
-#sx-trace{position:absolute;left:clamp(1.6rem,5vw,5rem);bottom:2.2rem;z-index:2;
+#sx-trace{position:absolute;left:clamp(1.6rem,5vw,5rem);bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));z-index:2;
   font-family:var(--sxmono);font-size:11px;letter-spacing:.16em;color:#565C5E;
   text-transform:lowercase;max-width:70vw;line-height:2}
-#sx-porte{position:absolute;right:clamp(1.6rem,5vw,5rem);bottom:2.2rem;z-index:2;
+#sx-porte{position:absolute;right:clamp(1.6rem,5vw,5rem);bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));z-index:2;
   font-family:var(--sxmono);font-size:11px;letter-spacing:.16em;color:#454A4C;
   text-decoration:none;border-bottom:1px solid transparent;opacity:0;
   transition:color .5s,border-color .5s,opacity 1.5s}
