@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Management au présent — Robert Joubin accompagne les dirigeants et les équipes à l'aide des outils du plateau de théâtre pour révéler la présence et transformer le collectif."/>
+  <meta name="description" content="Robert Joubin travaille avec les dirigeants et les équipes à partir du plateau de théâtre : dynamiques d'équipe, prise de parole, accompagnement des dirigeants."/>
   <title>Management au présent — Robert Joubin | Metteur en scène & Consultant</title>
   
   <!-- Google Fonts -->
@@ -165,24 +165,16 @@
       fill: currentColor;
     }
 
-    /* CAUSE RÉELLE DU LIEN LINKEDIN INCLIQUABLE SUR MOBILE.
-       .toast-container (style.css l.1137) est en position:fixed, bottom:2rem,
-       right:2rem, z-index:2000, et reste dans la page en permanence. Le .toast
-       qu'il contient est en visibility:hidden — invisible, mais il occupe
-       toujours sa place, et son texte par défaut ("Merci …, votre message a
-       bien été envoyé !") lui donne une largeur d'environ 350px.
-       Sur grand écran cette boîte reste dans le coin bas-droit, loin du lien
-       centré : aucun effet. Sur téléphone elle couvre toute la bande basse de
-       l'écran — exactement là où tombe le lien LinkedIn une fois en bas de page.
-       Le doigt touche donc la boîte fantôme, pas le lien.
-       Correctif : la boîte laisse passer les clics, le toast les reprend
-       seulement quand il s'affiche vraiment. */
-    .toast-container { pointer-events: none; }
-    .toast { pointer-events: none; }
-    .toast.show { pointer-events: auto; }
-
-    /* FOOTER — confort tactile */
+    /* FOOTER — fiabilité du clic sur mobile.
+       Le lien passait sous la barre d'outils du navigateur ou sous un calque
+       voisin ; on le remonte, on l'isole et on agrandit sa zone tactile. */
+    footer { position: relative; z-index: 2; }
+    footer p { position: relative; z-index: 3; }
+    /* le footer remontant d'un cran, on garde la modale au-dessus */
+    #legal-modal.modal { z-index: 10000; }
     footer a {
+      position: relative;
+      z-index: 3;
       touch-action: manipulation;
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0.14);
     }
@@ -197,6 +189,10 @@
     footer > p:last-child {
       margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
     }
+
+    /* ÉTAPE « ET APRÈS » — bande pleine largeur sous les trois étapes.
+       Reprend .processus-item tel quel, seule la portée en grille change. */
+    .processus-item.processus-suite { grid-column: 1 / -1; }
 
     /* RESPONSIVE — mêmes points de rupture que style.css */
     @media (max-width: 1024px) {
@@ -227,6 +223,171 @@
     .lien-seuil:hover{opacity:.6}
     .seuil-note{display:block;margin-top:8px;font-family:"DM Sans",sans-serif;font-size:12px;opacity:.5}
   </style>
+
+<!-- ==========================================================================
+     HABILLAGE « PLATEAU » — feuille additive, non destructive.
+     Surcharge style.css sans le modifier. Pour revenir en arrière,
+     supprimer ce seul bloc <style>.
+     ========================================================================== -->
+<style>
+  :root{
+    --terre:#BE7852;            /* accent rendu plus présent */
+    --rouille:#9B5B37;
+    --sable:#EFE8DC;            /* papier chaud */
+    --chaud:#E8DFD1;
+    --clair:#F7F3EB;
+    --expresso:#221C16;         /* encre chaude, pas de noir bleuté */
+    --milieu:#6B6259;
+    --nuit:#17120D;             /* plateau : noir chaud, bois */
+    --police-titre:'Spectral',Georgia,serif;
+    --police-texte:'Spectral',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --ombre-douce:none;
+    --ombre-hover:none;
+    --glass-bg:#F7F3EB;
+    --glass-border:rgba(34,28,22,.10);
+    --filet:1px solid rgba(34,28,22,.16);
+    --filet-clair:1px solid rgba(240,232,220,.16);
+  }
+
+  /* ---- Ni angles arrondis, ni ombres, ni rebonds ---- */
+  *{border-radius:0 !important;box-shadow:none !important}
+  .contact-icone{border-radius:50% !important}
+  .serv-carte:hover,.client-item:hover,.chiffre-item:hover,
+  .processus-item:hover,.approche-item:hover,.parcours li:hover,
+  a.contact-ligne:hover,.btn-principal:hover,.form-bouton:hover,
+  .btn-carousel:hover{transform:none !important}
+  /* Les fondus au défilement sont conservés : ils ralentissent la lecture. */
+
+  body{font-family:var(--police-texte);font-weight:300;font-size:1.03rem;
+       line-height:1.8;background:var(--clair);color:var(--expresso)}
+
+  /* ---- Étiquettes et micro-typo ---- */
+  .section-tag,.hero-tag,.nav-liens a,.btn-secondaire,
+  .form-champ label,.pres-role,.temo-role,.parcours .annee,
+  .client-num,.serv-icone,.processus-num,.approche-num{
+    font-family:var(--mono) !important;font-weight:400 !important}
+  .section-tag,.hero-tag{font-size:.7rem;letter-spacing:.22em;color:var(--terre)}
+  .serv-icone,.processus-num,.approche-num,.client-num{
+    font-size:.74rem !important;letter-spacing:.18em;color:var(--terre) !important;opacity:1 !important}
+
+  /* ---- Titres : sérif, un cran plus dense qu'en version froide ---- */
+  .section-titre,.hero-titre,.serv-nom,.processus-titre,.approche-item-titre,
+  .temo-nom,.pres-nom,.chiffre-val,.client-nom,.modal-title,.hero-nom-complet,.hero-prenom{
+    font-family:var(--police-titre) !important;font-weight:400 !important}
+  .section-titre em,.hero-titre em{font-style:italic;font-weight:300;color:var(--terre)}
+
+  /* ---- Navigation ---- */
+  nav{background:var(--clair);backdrop-filter:none;-webkit-backdrop-filter:none;
+      border-bottom:var(--filet)}
+  nav.scrolled{background:var(--clair)}
+  .nav-logo{font-weight:400}
+  .nav-liens a{font-size:.72rem;letter-spacing:.18em}
+  .nav-cta{background:var(--terre) !important;color:#FFF8F0 !important;
+           padding:.55rem 1.3rem !important}
+  .nav-cta:hover{background:var(--rouille) !important;color:#FFF8F0 !important}
+
+  /* ---- Hero : plateau, photo enfin lisible ---- */
+  #hero{background:var(--nuit)}
+  #hero::before{background:radial-gradient(circle,rgba(190,120,82,.14) 0%,transparent 65%)}
+  .hero-theatre-img{opacity:.60;filter:grayscale(85%) sepia(12%) contrast(1.05) brightness(.74);
+    mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 34%,#000 78%);
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 34%,#000 78%)}
+  .hero-titre{color:#F2EADD;line-height:1.18}
+  .hero-sous{color:#C4B7A6}
+  .hero-prenom,.hero-nom-complet{color:#A2937F}
+  .hero-citation{background:rgba(255,248,240,.05);backdrop-filter:none;-webkit-backdrop-filter:none;
+    border-left:2px solid var(--terre);padding:1.8rem;width:34%}
+  .hero-citation blockquote{color:#F2EADD;font-style:italic;font-weight:300}
+
+  /* ---- Boutons : le principal redevient un pavé, le reste en filet ---- */
+  .btn-principal,.form-bouton{background:var(--terre) !important;color:#FFF8F0 !important;
+    font-family:var(--mono) !important;font-size:.74rem;letter-spacing:.2em;
+    padding:1rem 2.2rem !important;border:0;transition:background-color .35s ease}
+  .btn-principal:hover,.form-bouton:hover{background:var(--rouille) !important}
+  .btn-secondaire{background:none !important;color:#C4B7A6 !important;padding:1rem 0 !important;
+    font-size:.74rem;letter-spacing:.2em;border-bottom:1px solid rgba(196,183,166,.4)}
+  .btn-secondaire:hover{color:var(--terre) !important;border-bottom-color:var(--terre)}
+  .hero-boutons{gap:2.2rem}
+
+  /* ---- Présentation ---- */
+  #presentation{background:var(--sable)}
+  .pres-carte{background:none;padding:0}
+  .pres-carte-container::before{display:none}
+  .pres-portrait-img{filter:grayscale(80%) sepia(10%) contrast(1.03);height:340px}
+  .pres-carte p{font-size:1.04rem;color:var(--expresso);opacity:.88}
+  .val{background:var(--chaud);border:0;padding:.45rem 1.1rem;
+       font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--milieu)}
+  .val:hover{background:var(--terre);color:#FFF8F0}
+
+  /* ---- Chiffres ---- */
+  #chiffres{background:var(--chaud);border-top:var(--filet);border-bottom:var(--filet)}
+  .chiffre-item{background:none;border-left:0;border-top:var(--filet);padding:1.6rem 1.4rem 1.6rem 0}
+  .chiffre-item:hover{background:none;border-left:0}
+  .chiffre-val{font-size:2.1rem;color:var(--expresso)}
+
+  /* ---- Services : liste de travail, pas catalogue ---- */
+  .serv-grille{grid-template-columns:1fr !important;gap:0 !important}
+  .serv-carte{background:none !important;border-top:var(--filet);padding:2.6rem 0;
+    display:grid;grid-template-columns:4rem 1fr;column-gap:2rem;row-gap:.6rem;align-items:baseline}
+  .serv-carte::after{display:none}
+  .serv-carte:hover{background:none !important}
+  .serv-icone{grid-row:1/3;margin:0 !important;padding-top:.5rem}
+  .serv-nom{font-size:1.55rem;margin:0}
+  .serv-desc{max-width:44rem;font-size:1.02rem;color:var(--milieu)}
+  @media(min-width:861px){.serv-desc{grid-column:2}}
+
+  /* ---- Processus ---- */
+  #processus{background:var(--nuit)}
+  #processus::before{background:radial-gradient(circle,rgba(190,120,82,.12) 0%,transparent 65%)}
+  .processus-grille{gap:0}
+  .processus-item{background:none;border:0;border-top:var(--filet-clair);padding:2.2rem 1.6rem 2.2rem 0}
+  .processus-item:hover{background:rgba(255,248,240,.03)}
+  .processus-titre{color:#F2EADD;font-size:1.28rem}
+  .processus-desc{color:#B8AB9A}
+
+  /* ---- Approche ---- */
+  #approche{background:var(--nuit)}
+  #approche::before{background:radial-gradient(circle,rgba(190,120,82,.14) 0%,transparent 70%)}
+  .approche-item{background:none;border:0;border-top:var(--filet-clair);padding:1.9rem 0}
+  .approche-item:hover{background:rgba(255,248,240,.03)}
+  .approche-texte p{color:#C4B7A6}
+  .approche-item-titre{color:#F2EADD}
+  .approche-item-desc{color:#B8AB9A}
+  .approche-citation-speciale{color:#F2EADD;border-left:2px solid var(--terre);
+    padding-left:1.5rem;margin-top:2.4rem}
+
+  /* ---- Témoignages ---- */
+  #temoignages{background:var(--sable)}
+  .temo-slide{background:var(--clair);padding:3.2rem 3rem;border-top:2px solid var(--terre)}
+  .temo-guillemet{display:none}
+  .temo-texte{font-size:1.22rem;font-style:italic;color:var(--expresso);opacity:.92}
+  .btn-carousel{background:var(--chaud);border:0;width:44px;height:44px}
+  .btn-carousel:hover{background:var(--terre);color:#FFF8F0}
+  .indicateur{width:14px;height:2px;background:rgba(34,28,22,.2)}
+  .indicateur.active{background:var(--terre);transform:none}
+
+  /* ---- Clients ---- */
+  #clients{background:var(--clair)}
+  .client-item{background:none;border-left:0;border-top:var(--filet);padding:1.4rem 1.2rem 1.4rem 0}
+  .client-item:hover{background:none;border-left:0}
+
+  /* ---- Contact : la zone la plus accueillante de la page ---- */
+  #contact{background:var(--chaud)}
+  .contact-form-container{background:var(--clair);padding:3rem 2.8rem;
+    border-top:3px solid var(--terre)}
+  .contact-icone{background:var(--terre);color:#FFF8F0;width:44px;height:44px}
+  .form-champ input,.form-champ textarea{background:var(--sable);border:0;
+    border-bottom:2px solid rgba(34,28,22,.12);padding:.85rem 1rem;font-family:var(--police-texte)}
+  .form-champ input:focus,.form-champ textarea:focus{background:#FFF;border-bottom-color:var(--terre)}
+  .form-champ label{font-size:.68rem;letter-spacing:.18em;color:var(--milieu)}
+
+  /* ---- Divers ---- */
+  footer{background:var(--nuit)}
+  .modal-container{background:var(--clair);border:0;border-top:3px solid var(--terre)}
+  .toast{background:var(--nuit);border-left:3px solid var(--terre)}
+  .lien-seuil-bloc{border-top:var(--filet)}
+</style>
 </head>
 <body>
 
@@ -247,7 +408,7 @@
     <div class="nav-liens" id="nav-menu">
       <a href="#presentation">À propos</a>
       <a href="#services">Services</a>
-      <a href="#processus">Comment ça marche</a>
+      <a href="#processus">Comment ça se passe</a>
       <a href="#temoignages">Témoignages</a>
       <a href="#contact" class="nav-cta">Parlons-en</a>
     </div>
@@ -277,7 +438,7 @@
         Être là, vraiment.<br/>C'est là que tout <em>commence</em>.
       </h1>
       <p class="hero-sous">
-        J'accompagne les dirigeants et les équipes avec les outils du plateau de théâtre. Trente-cinq ans de pratique, et huit ans passés à l'Institut Renault de la Qualité et du Management.
+        Je travaille avec les dirigeants et les équipes à partir du plateau de théâtre. Trente-cinq ans de pratique, et huit ans passés à l'Institut Renault de la Qualité et du Management.
       </p>
       <div class="hero-boutons">
         <a href="#contact" class="btn-principal">Parlons-en</a>
@@ -289,7 +450,6 @@
       <blockquote>
         "Je ne simule pas des situations — je crée des conditions pour que quelque chose de vrai se passe."
       </blockquote>
-      <cite>— Ma conviction</cite>
     </div>
   </header>
 
@@ -306,10 +466,10 @@
         <h2 class="section-titre">Ce que le plateau m'a appris sur les <em>êtres humains</em></h2>
         <div class="valeurs">
           <span class="val">Présence</span>
-          <span class="val">Écoute profonde</span>
-          <span class="val">Co-construction</span>
-          <span class="val">Transformation durable</span>
-          <span class="val">Authenticité</span>
+          <span class="val">Ralentir</span>
+          <span class="val">Ce qui ne se dit pas</span>
+          <span class="val">Le corps</span>
+          <span class="val">Être vu</span>
         </div>
       </div>
       
@@ -320,7 +480,7 @@
             Je pratique le théâtre depuis trente-cinq ans. Je joue, je mets en scène, j'écris, j'enseigne. La dynamique des groupes et la recherche personnelle en sont inséparables.
           </p>
           <p>
-            De 2000 à 2008, j'ai été consultant associé à l'Institut Renault de la Qualité et du Management. Ce passage m'a fait découvrir l'entreprise de l'intérieur, et la diversité des façons dont on s'y organise. Je suis intervenu pour Renault en interne, puis pour d'autres structures — chacune avec ses circuits de décision, ses hiérarchies, ses habitudes de réunion. J'y ai appliqué ma connaissance des dynamiques de groupe et de la richesse de la créativité collective, quand on lève les obstacles.
+            De 2000 à 2008, j'ai été consultant associé à l'Institut Renault de la Qualité et du Management. Ce passage m'a fait découvrir l'entreprise de l'intérieur, et la diversité des façons dont on s'y organise. Je suis intervenu pour Renault en interne, puis pour d'autres structures — chacune avec ses circuits de décision, ses hiérarchies, ses habitudes de réunion. J'y ai apporté ce que je sais des groupes : ce qui les bloque, et ce qui se libère quand le blocage cède.
           </p>
           <p>
             J'ai appris à lire ce qu'un corps exprime quand la voix se tait. À entendre ce qu'une équipe retient quand elle n'ose pas parler. À percevoir ce qu'un dirigeant porte, seul, quand personne ne regarde. C'est cette école-là que j'apporte en entreprise. Pas comme une méthode. Comme une expérience.
@@ -355,7 +515,7 @@
         </div>
         <div class="chiffre-item">
           <span class="chiffre-val">1 000</span>
-          <span class="chiffre-lib">adultes accompagnés dans la durée</span>
+          <span class="chiffre-lib">adultes suivis dans la durée</span>
         </div>
         <div class="chiffre-item">
           <span class="chiffre-val">180</span>
@@ -387,15 +547,15 @@
           <span class="serv-icone" aria-hidden="true">01</span>
           <h3 class="serv-nom">Dynamiques d'équipe</h3>
           <p class="serv-desc">
-            Révéler ce qui se joue vraiment dans un collectif — les non-dits, les forces cachées, les liens qui manquent. Créer les conditions pour qu'une équipe se rencontre vraiment et avance ensemble.
+            Une équipe qui ne se parle pas n'a pas un problème de communication : elle a appris à se protéger. Ce qui ne se dit pas en réunion se dit ailleurs, autrement. Mon travail est de faire remonter ce qui se joue — les non-dits, les forces inemployées, les liens qui manquent. Travailler côte à côte n'est pas travailler ensemble.
           </p>
         </div>
 
         <div class="serv-carte reveal reveal-delay-1">
           <span class="serv-icone" aria-hidden="true">02</span>
-          <h3 class="serv-nom">Séminaires d'équipe</h3>
+          <h3 class="serv-nom">Le projet commun</h3>
           <p class="serv-desc">
-            Des expériences vécues ensemble, pas des exercices. Le projet commun, ça éveille, ça élève : à travers les outils du plateau, les équipes découvrent qu'elles sont capables de bien plus qu'elles ne le croyaient.
+            Un séminaire où l'on regarde des slides ne change rien ; un séminaire où l'on fait quelque chose ensemble, si. Ça éveille, ça élève : les équipes découvrent qu'elles sont capables de bien plus qu'elles ne le croyaient. Et quand le dirigeant y prend part comme les autres, plutôt que d'observer, ce qui se passe n'a plus rien à voir.
           </p>
         </div>
 
@@ -409,9 +569,9 @@
 
         <div class="serv-carte reveal">
           <span class="serv-icone" aria-hidden="true">04</span>
-          <h3 class="serv-nom">Accompagnement des dirigeants</h3>
+          <h3 class="serv-nom">Diriger, moins seul</h3>
           <p class="serv-desc">
-            Diriger se fait presque toujours seul. Personne ne dit ce qu'on aurait pu faire autrement, et les questions s'accumulent sans interlocuteur. Ce suivi est fait pour cela : quelqu'un avec qui reprendre. Non pas des réponses toutes faites, mais un regard extérieur et un point d'appui, pour affiner votre propre manière de faire.
+            Diriger se fait presque toujours seul. Personne ne dit ce qu'on aurait pu faire autrement, et les questions s'accumulent sans interlocuteur. Un rendez-vous régulier, dans la durée, est fait pour cela : quelqu'un avec qui reprendre. Non pas des réponses toutes faites, mais un regard extérieur et un point d'appui, pour affiner votre propre manière de faire.
           </p>
         </div>
 
@@ -419,7 +579,7 @@
           <span class="serv-icone" aria-hidden="true">05</span>
           <h3 class="serv-nom">Mises en situation théâtrales</h3>
           <p class="serv-desc">
-            L'improvisation, le corps, l'espace, le silence comme révélateurs. Quand l'acteur est présent, tout se passe, tout se produit — et cela vaut aussi pour une équipe réunie autour d'une table.
+            Personne ne se voit travailler : on se raconte comment on travaille, ce qui n'est pas la même chose. L'improvisation, le corps, l'espace, le silence remettent la scène sous les yeux de ceux qui la jouent. Il faut accepter d'être vu par ses collègues en train de s'y prendre mal — c'est précisément là que ça sert. Quand quelqu'un est vraiment présent, tout se passe.
           </p>
         </div>
 
@@ -427,7 +587,7 @@
           <span class="serv-icone" aria-hidden="true">06</span>
           <h3 class="serv-nom">Ateliers sur mesure</h3>
           <p class="serv-desc">
-            Chaque intervention est conçue pour un contexte, jamais sur catalogue. Une création partagée avec vous, du premier échange jusqu'au dernier atelier.
+            Il n'y a pas de programme à vous vendre. Il y a votre situation, et ce qu'on en fait : chaque atelier est conçu pour un contexte précis, jamais sur catalogue. Cela demande de décrire ce qui se passe réellement chez vous — pas la version officielle, celle qu'on raconte à l'extérieur. C'est souvent le pas le plus difficile, et c'est là que le travail commence.
           </p>
         </div>
       </div>
@@ -445,15 +605,15 @@
           <span class="processus-num">01</span>
           <div class="processus-texte">
             <h3 class="processus-titre">Un premier échange</h3>
-            <p class="processus-desc">30 minutes ensemble, sans engagement. Pour comprendre votre situation, vos enjeux, ce que vous traversez.</p>
+            <p class="processus-desc">Trente minutes au téléphone, sans engagement. Vous parlez, je ne propose rien. Ce qui m'intéresse à ce stade n'est pas ce que vous voulez commander, mais ce qui se passe chez vous — et depuis quand.</p>
           </div>
         </div>
 
         <div class="processus-item reveal reveal-delay-1">
           <span class="processus-num">02</span>
           <div class="processus-texte">
-            <h3 class="processus-titre">Une proposition sur mesure</h3>
-            <p class="processus-desc">Une intervention pensée pour vous, votre équipe, votre moment — construite après ce premier temps d'échange.</p>
+            <h3 class="processus-titre">Une proposition</h3>
+            <p class="processus-desc">Rien ne préexiste à cet échange. J'écris ensuite ce que je vous propose : ce qu'on ferait, avec qui, sur combien de temps, et ce que ça coûte. Vous la lisez, vous la discutez, vous la refusez. Rien n'est engagé tant que vous n'avez pas dit oui.</p>
           </div>
         </div>
 
@@ -461,7 +621,15 @@
           <span class="processus-num">03</span>
           <div class="processus-texte">
             <h3 class="processus-titre">On y va</h3>
-            <p class="processus-desc">Je viens à vous. Ce qu'on a préparé, on le vit : on met les situations en jeu, chacun s'y engage, et on revient ensuite sur ce qu'on vient de traverser.</p>
+            <p class="processus-desc">Je viens à vous. Ce qu'on a préparé, on le fait : les situations sont mises en jeu, chacun s'y engage, et on revient ensuite sur ce qu'on vient de traverser. Ce dernier temps n'est pas un bilan — c'est là que ce qui a été vécu devient utilisable.</p>
+          </div>
+        </div>
+
+        <div class="processus-item processus-suite reveal">
+          <span class="processus-num">04</span>
+          <div class="processus-texte">
+            <h3 class="processus-titre">Et après</h3>
+            <p class="processus-desc">Je vous propose un point quelques semaines plus tard — trente minutes, par téléphone. Parfois cela débouche sur une suite, parfois non. Je ne cherche pas à m'installer dans votre organisation : ce qui a été mis au jour doit tenir sans moi.</p>
           </div>
         </div>
 
@@ -493,9 +661,9 @@
           <div class="approche-item reveal">
             <span class="approche-num">01</span>
             <div class="approche-item-texte">
-              <h3 class="approche-item-titre">J'écoute avant tout</h3>
+              <h3 class="approche-item-titre">Je ne propose rien au début</h3>
               <p class="approche-item-desc">
-                Chaque intervention commence par une écoute de votre contexte et de vos enjeux réels — pas ceux qu'on suppose de prime abord. Les vraies questions ne se posent jamais brutalement au début : elles cheminent dans les corps et les regards, et ce sont elles qui orientent le travail.
+                Le premier temps est un temps où vous parlez et où je ne propose rien : votre situation telle que vous la décrivez, pas telle qu'on la suppose de l'extérieur. Les vraies questions ne se posent jamais brutalement au début : elles cheminent dans les corps et les regards, et ce sont elles qui orientent le travail.
               </p>
             </div>
           </div>
@@ -513,9 +681,9 @@
           <div class="approche-item reveal reveal-delay-2">
             <span class="approche-num">03</span>
             <div class="approche-item-texte">
-              <h3 class="approche-item-titre">Je co-construis avec vous</h3>
+              <h3 class="approche-item-titre">Je repars, et vous restez</h3>
               <p class="approche-item-desc">
-                Les solutions que nous découvrons ensemble sont celles que vos équipes peuvent s'approprier, porter et faire vivre durablement au quotidien.
+                Aucun atelier ne transforme une organisation. Il rend visible ce que tout le monde sait déjà et que personne ne dit. Ce qui vient après, c'est vous qui le portez : il n'y a pas de sous-traitance possible, et c'est tant mieux — ce qui tient dans la durée n'est jamais ce qu'on a fait faire par quelqu'un d'autre.
               </p>
             </div>
           </div>
@@ -527,7 +695,7 @@
     <section id="temoignages">
       <div class="reveal" style="text-align: center;">
         <span class="section-tag">Témoignages</span>
-        <h2 class="section-titre">Ils me font <em>confiance</em></h2>
+        <h2 class="section-titre">Ce qu'ils en <em>disent</em></h2>
       </div>
 
       <div class="temo-container reveal reveal-delay-1">
@@ -590,7 +758,7 @@
     <section id="clients">
       <div class="reveal" style="text-align: center;">
         <span class="section-tag">Références</span>
-        <h2 class="section-titre">Ils m'ont fait <em>confiance</em></h2>
+        <h2 class="section-titre">Là où j'ai <em>travaillé</em></h2>
       </div>
       <div class="clients-grille reveal reveal-delay-1">
         <div class="client-item">
@@ -650,9 +818,9 @@
     <section id="contact">
       <div class="contact-info reveal">
         <span class="section-tag">Contact</span>
-        <h2 class="section-titre">Parlons de votre <em>projet</em></h2>
+        <h2 class="section-titre">Parlons de ce qui vous <em>occupe</em></h2>
         <p>
-          Chaque mission commence par un échange. Je vous propose un premier appel de 30 minutes, sans engagement, pour explorer ensemble vos enjeux et voir si ma façon de travailler vous correspond.
+          Ça commence toujours par un échange. Trente minutes au téléphone, sans engagement : vous décrivez votre situation, et on voit si ma façon de travailler vous correspond.
         </p>
         
         <div class="contact-details">
@@ -670,7 +838,7 @@
           </a>
           <div class="contact-ligne">
             <span class="contact-icone">📍</span>
-            <span class="contact-detail">Interventions partout en France & à distance</span>
+            <span class="contact-detail">Je me déplace partout en France · à distance également</span>
           </div>
         </div>
       </div>
@@ -691,8 +859,8 @@
             <input type="text" id="form-entreprise" name="entreprise" placeholder="Nom de votre structure"/>
           </div>
           <div class="form-champ">
-            <label for="form-message">Votre besoin ou projet *</label>
-            <textarea id="form-message" name="message" required placeholder="Décrivez brièvement votre besoin, le contexte et vos enjeux…"></textarea>
+            <label for="form-message">Ce qui vous amène *</label>
+            <textarea id="form-message" name="message" required placeholder="Décrivez en quelques lignes la situation, telle qu'elle se présente…"></textarea>
           </div>
           <button type="submit" class="form-bouton">Envoyer le message</button>
         </form>
@@ -730,9 +898,9 @@
         <div class="modal-section">
           <h3>2. Hébergement</h3>
           <p>Le site est hébergé par :</p>
-          <p><strong>Netlify, Inc.</strong></p>
-          <p><strong>Adresse :</strong> 44 Montgomery Street, Suite 300, San Francisco, CA 94104, USA</p>
-          <p><strong>Téléphone :</strong> +1 415-691-1773</p>
+          <p><strong>GitHub, Inc.</strong> (GitHub Pages)</p>
+          <p><strong>Adresse :</strong> 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA</p>
+          <p><strong>Téléphone :</strong> +1 877 448 4820</p>
         </div>
 
         <div class="modal-section">
@@ -950,13 +1118,13 @@ var SORTIES={
   d:"Dynamiques d'équipe",u:"services"},
  seminaire:{p:"Un séminaire où l'on regarde des slides ne change rien.<br>Un séminaire où l'on fait quelque chose ensemble, si.",
   e:"Il faut du temps, et il faut que vous soyez là comme les autres. Pas au fond de la salle, à regarder.",
-  d:"Séminaires d'équipe",u:"services"},
+  d:"Le projet commun",u:"services"},
  parole:{p:"Il ne s'agit pas d'apprendre à parler en public.<br>Il s'agit de devenir celui qui parle.",
   e:"Vos mots ne sont pas le problème. C'est ce qui se passe en vous, dans votre corps, pendant que vous les dites — et ça ne se corrige pas sur le papier.",
   d:"Prise de parole en public",u:"services"},
  dirigeant:{p:"Personne ne vous dit ce que vous auriez pu faire autrement.<br>Les questions s'accumulent, sans interlocuteur.",
   e:"Ce n'est ni du conseil ni de la thérapie. C'est quelqu'un avec qui reprendre, régulièrement, dans la durée.",
-  d:"Accompagnement des dirigeants",u:"services"},
+  d:"Diriger, moins seul",u:"services"},
  situations:{p:"Personne ne se voit travailler.<br>On se raconte comment on travaille — ce n'est pas la même chose.",
   e:"Il faudra accepter d'être vu par ses collègues en train de s'y prendre mal. C'est précisément là que ça sert.",
   d:"Mises en situation théâtrales",u:"services"},
