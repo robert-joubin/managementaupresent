@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Robert Joubin travaille avec les dirigeants et les équipes à partir du plateau de théâtre : dynamiques d'équipe, prise de parole, accompagnement des dirigeants."/>
+  <meta name="description" content="Robert Joubin travaille avec les dirigeants et les équipes avec les outils du plateau de théâtre : dynamiques d'équipe, prise de parole, accompagnement des dirigeants."/>
   <title>Management au présent — Robert Joubin | Metteur en scène & Consultant</title>
   
   <!-- Google Fonts -->
@@ -290,7 +290,7 @@
   /* ---- Hero : plateau, photo enfin lisible ---- */
   #hero{background:var(--nuit)}
   #hero::before{background:radial-gradient(circle,rgba(190,120,82,.14) 0%,transparent 65%)}
-  .hero-theatre-img{opacity:.60;filter:grayscale(85%) sepia(12%) contrast(1.05) brightness(.74);
+  .hero-theatre-img{opacity:.66;filter:grayscale(45%) sepia(34%) saturate(1.25) contrast(1.06) brightness(.80);
     mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 34%,#000 78%);
     -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.72) 34%,#000 78%)}
   .hero-titre{color:#F2EADD;line-height:1.18}
@@ -387,6 +387,18 @@
   .modal-container{background:var(--clair);border:0;border-top:3px solid var(--terre)}
   .toast{background:var(--nuit);border-left:3px solid var(--terre)}
   .lien-seuil-bloc{border-top:var(--filet)}
+
+  /* ---- Nav : six entrées, on resserre légèrement l'écart ---- */
+  @media(min-width:861px){.nav-liens{gap:1.9rem}}
+  @media(min-width:861px) and (max-width:1180px){.nav-liens{gap:1.35rem}
+    .nav-liens a{font-size:.68rem;letter-spacing:.14em}}
+
+  /* ---- Autoportrait au trait, en haut de la colonne contact.
+         Le fichier autoportrait.png est détouré : fond transparent,
+         trait blanc. Aucun cadre, aucun blend-mode nécessaire. ---- */
+  .contact-trait{display:block;width:8rem;height:auto;
+    margin:0 0 1.8rem;opacity:1}
+  @media(max-width:860px){.contact-trait{margin:0 auto 1.6rem}}
 </style>
 </head>
 <body>
@@ -408,6 +420,7 @@
     <div class="nav-liens" id="nav-menu">
       <a href="#presentation">À propos</a>
       <a href="#services">Services</a>
+      <a href="#approche">Mon approche</a>
       <a href="#processus">Comment ça se passe</a>
       <a href="#temoignages">Témoignages</a>
       <a href="#contact" class="nav-cta">Parlons-en</a>
@@ -438,7 +451,7 @@
         Être là, vraiment.<br/>C'est là que tout <em>commence</em>.
       </h1>
       <p class="hero-sous">
-        Je travaille avec les dirigeants et les équipes à partir du plateau de théâtre. Trente-cinq ans de pratique, et huit ans passés à l'Institut Renault de la Qualité et du Management.
+        Avec les outils du plateau de théâtre, je travaille auprès des dirigeants et des équipes. Trente-cinq ans de pratique, et huit ans passés à l'Institut Renault de la Qualité et du Management.
       </p>
       <div class="hero-boutons">
         <a href="#contact" class="btn-principal">Parlons-en</a>
@@ -579,7 +592,7 @@
           <span class="serv-icone" aria-hidden="true">05</span>
           <h3 class="serv-nom">Mises en situation théâtrales</h3>
           <p class="serv-desc">
-            Personne ne se voit travailler : on se raconte comment on travaille, ce qui n'est pas la même chose. L'improvisation, le corps, l'espace, le silence remettent la scène sous les yeux de ceux qui la jouent. Il faut accepter d'être vu par ses collègues en train de s'y prendre mal — c'est précisément là que ça sert. Quand quelqu'un est vraiment présent, tout se passe.
+            Personne ne se voit travailler : on se raconte comment on travaille, ce qui n'est pas la même chose. L'improvisation, le corps, l'espace, le silence remettent la scène sous les yeux de ceux qui la jouent. Chacun se découvre en train de faire, devant des collègues qui s'y reconnaissent, et ce qu'on a vu ensemble ne s'oublie plus. Quand quelqu'un est vraiment présent, tout se passe.
           </p>
         </div>
 
@@ -587,52 +600,9 @@
           <span class="serv-icone" aria-hidden="true">06</span>
           <h3 class="serv-nom">Ateliers sur mesure</h3>
           <p class="serv-desc">
-            Il n'y a pas de programme à vous vendre. Il y a votre situation, et ce qu'on en fait : chaque atelier est conçu pour un contexte précis, jamais sur catalogue. Cela demande de décrire ce qui se passe réellement chez vous — pas la version officielle, celle qu'on raconte à l'extérieur. C'est souvent le pas le plus difficile, et c'est là que le travail commence.
+            Chaque atelier part d'un contexte précis : le vôtre. Rien n'est repris d'un catalogue — tout se dessine à partir de ce que vous me racontez de votre situation, non pas la version officielle, celle qu'on présente à l'extérieur, mais ce qui s'y passe vraiment. Ce premier récit demande un peu de temps. Il fait déjà partie du travail.
           </p>
         </div>
-      </div>
-    </section>
-
-    <!-- SECTION COMMENT ÇA SE PASSE -->
-    <section id="processus">
-      <div class="reveal" style="text-align:center;">
-        <span class="section-tag">Comment ça se passe</span>
-        <h2 class="section-titre">Concrètement, si vous <em>m'appelez</em></h2>
-      </div>
-      <div class="processus-grille">
-
-        <div class="processus-item reveal">
-          <span class="processus-num">01</span>
-          <div class="processus-texte">
-            <h3 class="processus-titre">Un premier échange</h3>
-            <p class="processus-desc">Trente minutes au téléphone, sans engagement. Vous parlez, je ne propose rien. Ce qui m'intéresse à ce stade n'est pas ce que vous voulez commander, mais ce qui se passe chez vous — et depuis quand.</p>
-          </div>
-        </div>
-
-        <div class="processus-item reveal reveal-delay-1">
-          <span class="processus-num">02</span>
-          <div class="processus-texte">
-            <h3 class="processus-titre">Une proposition</h3>
-            <p class="processus-desc">Rien ne préexiste à cet échange. J'écris ensuite ce que je vous propose : ce qu'on ferait, avec qui, sur combien de temps, et ce que ça coûte. Vous la lisez, vous la discutez, vous la refusez. Rien n'est engagé tant que vous n'avez pas dit oui.</p>
-          </div>
-        </div>
-
-        <div class="processus-item reveal reveal-delay-2">
-          <span class="processus-num">03</span>
-          <div class="processus-texte">
-            <h3 class="processus-titre">On y va</h3>
-            <p class="processus-desc">Je viens à vous. Ce qu'on a préparé, on le fait : les situations sont mises en jeu, chacun s'y engage, et on revient ensuite sur ce qu'on vient de traverser. Ce dernier temps n'est pas un bilan — c'est là que ce qui a été vécu devient utilisable.</p>
-          </div>
-        </div>
-
-        <div class="processus-item processus-suite reveal">
-          <span class="processus-num">04</span>
-          <div class="processus-texte">
-            <h3 class="processus-titre">Et après</h3>
-            <p class="processus-desc">Je vous propose un point quelques semaines plus tard — trente minutes, par téléphone. Parfois cela débouche sur une suite, parfois non. Je ne cherche pas à m'installer dans votre organisation : ce qui a été mis au jour doit tenir sans moi.</p>
-          </div>
-        </div>
-
       </div>
     </section>
 
@@ -688,6 +658,49 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- SECTION COMMENT ÇA SE PASSE -->
+    <section id="processus">
+      <div class="reveal" style="text-align:center;">
+        <span class="section-tag">Comment ça se passe</span>
+        <h2 class="section-titre">Concrètement, si vous <em>m'appelez</em></h2>
+      </div>
+      <div class="processus-grille">
+
+        <div class="processus-item reveal">
+          <span class="processus-num">01</span>
+          <div class="processus-texte">
+            <h3 class="processus-titre">Un premier échange</h3>
+            <p class="processus-desc">Trente minutes au téléphone, sans engagement. Vous décrivez la situation, je pose des questions.</p>
+          </div>
+        </div>
+
+        <div class="processus-item reveal reveal-delay-1">
+          <span class="processus-num">02</span>
+          <div class="processus-texte">
+            <h3 class="processus-titre">Une proposition</h3>
+            <p class="processus-desc">Quelques jours après, je vous écris ce qu'on ferait : avec qui, sur combien de temps, et ce que ça coûte. Rien n'est engagé tant que vous n'avez pas dit oui.</p>
+          </div>
+        </div>
+
+        <div class="processus-item reveal reveal-delay-2">
+          <span class="processus-num">03</span>
+          <div class="processus-texte">
+            <h3 class="processus-titre">On y va</h3>
+            <p class="processus-desc">Je viens à vous, sur une journée ou plusieurs. Les situations sont mises en jeu, puis on revient ensemble sur ce qu'on vient de traverser.</p>
+          </div>
+        </div>
+
+        <div class="processus-item processus-suite reveal">
+          <span class="processus-num">04</span>
+          <div class="processus-texte">
+            <h3 class="processus-titre">Et après</h3>
+            <p class="processus-desc">Trente minutes au téléphone, quelques semaines plus tard. Parfois une suite s'engage, parfois non.</p>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -817,6 +830,7 @@
     <!-- SECTION CONTACT -->
     <section id="contact">
       <div class="contact-info reveal">
+        <img src="autoportrait-rouille.png" alt="Autoportrait au trait de Robert Joubin" class="contact-trait"/>
         <span class="section-tag">Contact</span>
         <h2 class="section-titre">Parlons de ce qui vous <em>occupe</em></h2>
         <p>
