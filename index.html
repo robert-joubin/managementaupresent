@@ -400,6 +400,68 @@
     margin:0 0 1.8rem;opacity:1}
   @media(max-width:860px){.contact-trait{margin:0 auto 1.6rem}}
 </style>
+<!-- ADOUCISSEMENT — bloc additif posé après le plateau.
+     Le supprimer restitue le plateau strict. -->
+<style>
+  :root{
+    --terre:#C07A52;--rouille:#A3572F;
+    --sable:#F3EBDD;--chaud:#EFE2CE;--clair:#FBF6EE;
+    --expresso:#2A231B;--milieu:#786B5E;--nuit:#241C15;
+    --police-titre:'Playfair Display',Georgia,serif;
+    --police-texte:'DM Sans',sans-serif;
+    --ombre-douce:0 10px 30px -12px rgba(46,31,21,.10);
+    --ombre-hover:0 18px 38px -16px rgba(46,31,21,.16);
+    --filet:1px solid rgba(42,35,27,.12);
+  }
+  body{font-family:var(--police-texte);font-weight:300;line-height:1.78}
+
+  /* les angles et les reliefs reviennent, mesurés */
+  .serv-carte,.temo-slide,.contact-form-container,.chiffre-item,.client-item,
+  .modal-container,.toast,.pres-portrait-img,.btn-principal,.form-bouton,
+  .nav-cta,.btn-carousel,.form-champ input,.form-champ textarea{border-radius:6px !important}
+  .val{border-radius:30px !important}
+  .contact-icone{border-radius:50% !important}
+  .serv-carte,.temo-slide,.contact-form-container,.pres-portrait-img{
+    box-shadow:var(--ombre-douce) !important}
+
+  /* les chiffres et références redeviennent des cartes posées */
+  .chiffre-item,.client-item{background:var(--sable) !important;border-top:0;
+    padding:1.7rem 1.8rem}
+  .chiffre-item:hover,.client-item:hover{background:#fff !important;
+    transform:translateY(-4px) !important;box-shadow:var(--ombre-douce) !important}
+
+  /* les services restent en liste, mais respirent davantage */
+  .serv-carte{background:var(--sable) !important;border-top:0;
+    padding:2.4rem 2.2rem;margin-bottom:1.4rem;column-gap:1.6rem}
+  .serv-carte:hover{background:#fff !important;box-shadow:var(--ombre-hover) !important}
+
+  /* les numéros quittent la machine à écrire */
+  .serv-icone,.processus-num,.approche-num{font-family:var(--police-titre) !important;
+    font-size:2.1rem !important;letter-spacing:0 !important;opacity:.85 !important}
+  .client-num{font-family:var(--police-titre) !important;font-size:.82rem !important}
+
+  /* les micro-mouvements au survol reviennent */
+  .approche-item:hover,a.contact-ligne:hover,.parcours li:hover{transform:translateX(5px) !important}
+  .btn-principal:hover,.form-bouton:hover,.btn-carousel:hover{transform:translateY(-2px) !important}
+
+  /* le guillemet des témoignages réapparaît */
+  .temo-guillemet{display:block}
+  .temo-slide{border-top:0;padding:4rem 3.4rem}
+
+  /* le hero : moins de suie, plus de bois */
+  #hero{background:var(--expresso)}
+  .hero-theatre-img{opacity:.60;
+    filter:grayscale(28%) sepia(30%) saturate(1.28) contrast(1.03) brightness(.78)}
+  .hero-citation{background:rgba(255,248,240,.07)}
+
+  /* nav : un peu de verre, comme à l'origine */
+  nav{background:rgba(251,246,238,.88);backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px)}
+  nav.scrolled{background:rgba(251,246,238,.96)}
+  .nav-liens a{font-family:var(--police-texte) !important;font-size:.78rem;letter-spacing:.1em}
+
+  .contact-trait{width:8rem;opacity:1}
+</style>
 </head>
 <body>
 
@@ -598,7 +660,7 @@
 
         <div class="serv-carte reveal reveal-delay-2">
           <span class="serv-icone" aria-hidden="true">06</span>
-          <h3 class="serv-nom">Ateliers sur mesure</h3>
+          <h3 class="serv-nom">Ateliers écrits pour vous</h3>
           <p class="serv-desc">
             Chaque atelier part d'un contexte précis : le vôtre. Rien n'est repris d'un catalogue — tout se dessine à partir de ce que vous me racontez de votre situation, non pas la version officielle, celle qu'on présente à l'extérieur, mais ce qui s'y passe vraiment. Ce premier récit demande un peu de temps. Il fait déjà partie du travail.
           </p>
@@ -1144,7 +1206,7 @@ var SORTIES={
   d:"Mises en situation théâtrales",u:"services"},
  surmesure:{p:"Il n'y a pas de programme à vous vendre.<br>Il y a votre situation, et ce qu'on en fait.",
   e:"Ça demande de décrire précisément ce qui se passe chez vous — pas la version officielle, celle qu'on raconte à l'extérieur. C'est souvent le pas le plus difficile.",
-  d:"Ateliers sur mesure",u:"services"},
+  d:"Ateliers écrits pour vous",u:"services"},
  processus:{p:"Avant de savoir quoi, vous voulez sans doute savoir comment.",
   e:"Ça commence toujours par un échange où vous parlez et où je ne propose rien.",
   d:"Comment ça se passe",u:"processus"},
