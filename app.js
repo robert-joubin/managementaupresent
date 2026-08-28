@@ -96,10 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', slidePrecedente);
   }
 
-  // Auto-play : 14 secondes, le temps de lire le témoignage en entier
+  // Défilement automatique très lent : 30 secondes.
+  // Le changement de vignette se fait normalement à la flèche ou au point ;
+  // ce minuteur ne sert qu'à signaler, pour qui reste longtemps sur la page,
+  // qu'il y a d'autres témoignages à lire.
+  // Pour supprimer complètement le défilement automatique, il suffit de
+  // mettre en commentaire l'appel à lancerAutoPlay() en bas de ce bloc.
   const lancerAutoPlay = () => {
     clearInterval(carouselInterval);
-    carouselInterval = setInterval(slideSuivante, 14000);
+    carouselInterval = setInterval(slideSuivante, 30000);
   };
 
   lancerAutoPlay();
