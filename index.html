@@ -462,6 +462,41 @@
 
   .contact-trait{width:8rem;opacity:1}
 </style>
+
+<!-- PARCOURS — les dates quittent la colonne de gauche et deviennent
+     des repères posés en fin de ligne, entre parenthèses. -->
+<style>
+  .parcours-intro{
+    margin-top:1.6rem;font-size:.95rem;line-height:1.7;
+    color:var(--milieu);font-style:italic;opacity:.9}
+  .parcours{margin-top:.8rem;padding-top:1.2rem}
+  .parcours li{display:block;padding:.9rem 0}
+  .parcours .fait{display:inline}
+  .parcours .annee{display:inline;flex:none;white-space:nowrap;
+    font-family:var(--police-texte) !important;
+    text-transform:none;letter-spacing:.02em;font-size:.92em;
+    font-weight:400;color:var(--terre);margin-left:.3em}
+  @media(max-width:860px){.parcours li{flex-direction:row}}
+</style>
+
+<!-- TÉMOIGNAGES — le carrousel conserve en permanence la hauteur de la
+     citation la plus longue. Sans cela, chaque changement de vignette
+     modifiait la hauteur de la page et déplaçait tout ce qui se trouve
+     en dessous. Sur mobile, où les textes occupent trois fois plus de
+     lignes, l'écart entre deux témoignages dépassait 150 pixels : la
+     page semblait sauter pendant qu'on lisait la section contact. -->
+<style>
+  .temo-carousel{display:grid;grid-template-columns:1fr;align-items:start}
+  .temo-slide{position:relative;grid-column:1;grid-row:1;margin:0}
+  .temo-slide:not(.active){pointer-events:none}
+
+  /* Sur petit écran, la vignette respirait trop sur les côtés :
+     251 px de texte utile sur un écran de 390. */
+  @media(max-width:860px){
+    .temo-slide{padding:2.6rem 1.8rem}
+    .temo-guillemet{top:1.4rem;left:1.4rem}
+  }
+</style>
 </head>
 <body>
 
@@ -561,12 +596,14 @@
             J'ai appris à lire ce qu'un corps exprime quand la voix se tait. À entendre ce qu'une équipe retient quand elle n'ose pas parler. À percevoir ce qu'un dirigeant porte, seul, quand personne ne regarde. C'est cette école-là que j'apporte en entreprise. Pas comme une méthode. Comme une expérience.
           </p>
 
+          <p class="parcours-intro">Quelques repères, pris dans un parcours qui ne s'y résume pas.</p>
+
           <ul class="parcours">
-            <li><span class="annee">1998 · 1999</span><span class="fait">Deux mises en scène au Quartz, scène nationale de Brest, à l'invitation de son directeur Jacques Blanc.</span></li>
-            <li><span class="annee">2000 – 2008</span><span class="fait">Consultant associé à l'Institut Renault de la Qualité et du Management.</span></li>
-            <li><span class="annee">Formation</span><span class="fait">Stages auprès de John Strasberg, Klim, Leonid Kheifets et Natalia Zvereva — ces deux derniers enseignants au GITIS de Moscou, dont j'ai suivi les cours.</span></li>
-            <li><span class="annee">Depuis 2007</span><span class="fait">Cofondateur du Pôle Théâtre de Kerfeunteun, à Quimper. J'en structure le travail et j'accompagne les cinq pédagogues qui enseignent à mes côtés.</span></li>
-            <li><span class="annee">Aujourd'hui</span><span class="fait">J'interviens pour le compte du ministère de la Justice auprès de jeunes de quinze à dix-huit ans suivis par la protection judiciaire de la jeunesse.</span></li>
+            <li><span class="fait">Deux mises en scène au Quartz, scène nationale de Brest, à l'invitation de son directeur Jacques Blanc <span class="annee">(1998 et 1999)</span></span></li>
+            <li><span class="fait">Consultant associé à l'Institut Renault de la Qualité et du Management <span class="annee">(2000–2008)</span></span></li>
+            <li><span class="fait">Stages auprès de John Strasberg, Klim, Leonid Kheifets et Natalia Zvereva — ces deux derniers enseignants au GITIS de Moscou, dont j'ai suivi les cours <span class="annee">(années de formation)</span></span></li>
+            <li><span class="fait">Cofondateur du Pôle Théâtre de Kerfeunteun, à Quimper. J'en structure le travail et je suis les cinq pédagogues qui enseignent à mes côtés <span class="annee">(depuis 2007)</span></span></li>
+            <li><span class="fait">Je travaille pour le compte du ministère de la Justice auprès de jeunes de quinze à dix-huit ans suivis par la protection judiciaire de la jeunesse <span class="annee">(aujourd'hui)</span></span></li>
           </ul>
 
           <div class="pres-signature">
@@ -630,7 +667,7 @@
           <span class="serv-icone" aria-hidden="true">02</span>
           <h3 class="serv-nom">Le projet commun</h3>
           <p class="serv-desc">
-            Un séminaire où l'on regarde des slides ne change rien ; un séminaire où l'on fait quelque chose ensemble, si. Ça éveille, ça élève : les équipes découvrent qu'elles sont capables de bien plus qu'elles ne le croyaient. Et quand le dirigeant y prend part comme les autres, plutôt que d'observer, ce qui se passe n'a plus rien à voir.
+            Une journée passée à écouter s'oublie assez vite ; une journée passée à faire quelque chose ensemble, non. Ça éveille, ça élève : les équipes découvrent qu'elles sont capables de bien plus qu'elles ne le croyaient. Et quand le dirigeant y prend part comme les autres, plutôt que d'observer, ce qui se passe n'a plus rien à voir.
           </p>
         </div>
 
@@ -676,13 +713,13 @@
       <div class="approche-grille">
         <div class="approche-texte reveal">
           <p>
-            Je ne vends pas de techniques. Je ne crois pas aux formations qui laissent les gens exactement comme ils étaient, juste un peu plus informés.
+            Je ne vends pas de techniques. D'autres le font, et le font bien : il y a des situations où c'est exactement ce qu'il faut. Ce n'est simplement pas mon terrain.
           </p>
           <p>
             Ce qui me touche, c'est le moment où quelqu'un se surprend lui-même. Où un groupe découvre qu'il est capable de bien plus qu'il ne le croyait. Où un dirigeant lâche la maîtrise et trouve une autorité plus douce, plus profonde.
           </p>
           <p>
-            Ces moments-là n'arrivent pas avec des slides. Ils arrivent quand on crée ensemble les conditions pour qu'ils soient possibles.
+            Ces moments-là ne se préparent pas dans un document, si bien fait soit-il. Ils demandent qu'on soit plusieurs dans la même pièce, à faire quelque chose.
           </p>
           <blockquote class="approche-citation-speciale">
             "Si ces mots vous ont touché, nous avons sans doute quelque chose à construire ensemble. Parlons-en."
@@ -715,7 +752,7 @@
             <div class="approche-item-texte">
               <h3 class="approche-item-titre">Je n'emploie pas le jargon</h3>
               <p class="approche-item-desc">
-                Le mot management figure dans le nom de ce site ; le vocabulaire qui l'accompagne d'habitude, non. Ni pilotage, ni levier, ni process. Ces mots servent à parler vite, mais ils rangent dans des cases ce qui n'y entre pas : une personne n'entre pas dans une case, une relation non plus. Le plus souvent, ils rassurent celui qui les emploie et lui permettent d'entretenir le statu quo — ne pas prendre en compte ce qui se passe vraiment, ni ce sur quoi il faudrait agir.
+                Le mot management figure dans le nom de ce site ; le vocabulaire qui l'accompagne d'habitude, non. Ni pilotage, ni levier, ni process. Ces mots servent à parler vite, mais ils rangent dans des cases ce qui n'y entre pas : une personne n'entre pas dans une case, une relation non plus. Ils rassurent, et c'est bien leur fonction — il m'arrive de m'y raccrocher aussi. Le risque est seulement qu'on s'en contente, et qu'on regarde alors la case plutôt que ce qui s'y passe.
               </p>
             </div>
           </div>
@@ -1202,7 +1239,7 @@ var SORTIES={
  equipes:{p:"Une équipe qui ne se parle pas n'a pas un problème de communication.<br>Elle a appris à se protéger.",
   e:"Ce qui remontera ne sera pas forcément ce que vous vouliez voir. C'est à cette condition que quelque chose bouge.",
   d:"Dynamiques d'équipe",u:"services"},
- seminaire:{p:"Un séminaire où l'on regarde des slides ne change rien.<br>Un séminaire où l'on fait quelque chose ensemble, si.",
+ seminaire:{p:"Une journée passée à écouter s'oublie assez vite.<br>Une journée passée à faire quelque chose ensemble, non.",
   e:"Il faut du temps, et il faut que vous soyez là comme les autres. Pas au fond de la salle, à regarder.",
   d:"Le projet commun",u:"services"},
  parole:{p:"Il ne s'agit pas d'apprendre à parler en public.<br>Il s'agit de devenir celui qui parle.",

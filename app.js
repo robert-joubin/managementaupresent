@@ -96,10 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', slidePrecedente);
   }
 
-  // Auto-play toutes les 7 secondes
+  // Auto-play : 14 secondes, le temps de lire le témoignage en entier
   const lancerAutoPlay = () => {
     clearInterval(carouselInterval);
-    carouselInterval = setInterval(slideSuivante, 7000);
+    carouselInterval = setInterval(slideSuivante, 14000);
   };
 
   lancerAutoPlay();
