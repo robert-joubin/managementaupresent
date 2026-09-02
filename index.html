@@ -543,6 +543,27 @@
   .contact-icone{background:var(--terre)}
   .indicateur.active{background:var(--terre)}
 </style>
+
+<!-- ==========================================================================
+     CORRECTIF TACTILE — le bandeau de confirmation du formulaire
+     (.toast-container) est en position fixe, z-index 2000, en bas à droite.
+     Son message est masqué (visibility:hidden) mais occupe toujours sa boîte :
+     sur téléphone, cette boîte recouvre une bande d'environ 350 x 110 px
+     en bas de l'écran et absorbe les touchers — d'où les boutons du carrousel
+     inopérants. On rend le conteneur transparent au doigt, le bandeau
+     lui-même redevenant cliquable quand il s'affiche.
+     ========================================================================== -->
+<style>
+  .toast-container{pointer-events:none}
+  .toast{pointer-events:auto}
+
+  /* ceinture et bretelles : les contrôles du carrousel passent au-dessus
+     de toute autre couche et répondent sans délai au toucher */
+  .temo-controles{position:relative;z-index:5}
+  .btn-carousel,.indicateur{
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:rgba(208,100,43,.18)}
+</style>
 </head>
 <body>
 
