@@ -564,6 +564,56 @@
     touch-action:manipulation;
     -webkit-tap-highlight-color:rgba(208,100,43,.18)}
 </style>
+
+<!-- ==========================================================================
+     EXEMPLE DE FORMATION — bloc additif posé en dernier dans le <head>.
+     Le supprimer, avec le bloc HTML correspondant en fin de section #services,
+     restitue exactement l'état précédent du site.
+     ========================================================================== -->
+<style>
+  .exemple-formation{
+    margin-top:3.4rem;padding-top:2.6rem;
+    border-top:1px solid rgba(27,21,16,.14);
+    max-width:44rem}
+
+  .exemple-formation .section-tag{margin-bottom:.9rem}
+
+  .exemple-titre{
+    font-family:var(--police-titre);font-weight:400;
+    font-size:clamp(1.7rem,2.6vw,2.1rem);
+    color:var(--nuit);line-height:1.2;margin:0 0 .5rem}
+
+  .exemple-cadre{
+    font-family:var(--police-texte);font-size:.82rem;
+    letter-spacing:.02em;color:var(--milieu);margin:0 0 1.4rem}
+
+  .exemple-texte{
+    font-size:1.02rem;line-height:1.8;color:var(--milieu);
+    font-weight:300;margin:0 0 1.8rem}
+
+  .exemple-lien{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-family:var(--police-texte);font-size:.8rem;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--terre);text-decoration:none;
+    border-bottom:1px solid rgba(208,100,43,.4);
+    padding:.5rem 0;min-height:44px;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:rgba(208,100,43,.18);
+    transition:color .3s ease,border-color .3s ease}
+
+  .exemple-lien:hover{color:var(--rouille);border-bottom-color:var(--rouille)}
+  .exemple-lien svg{width:1em;height:1em;fill:currentColor;pointer-events:none}
+
+  .exemple-poids{
+    font-family:var(--police-texte);font-size:.78rem;
+    color:var(--milieu);opacity:.7;letter-spacing:.02em;
+    margin:.8rem 0 0}
+
+  @media(max-width:860px){
+    .exemple-formation{margin-top:2.6rem;padding-top:2rem}
+  }
+</style>
 </head>
 <body>
 
@@ -773,6 +823,21 @@
             Chaque atelier part d'un contexte précis : le vôtre. Rien n'est repris d'un catalogue — tout se dessine à partir de ce que vous me racontez de votre situation, non pas la version officielle, celle qu'on présente à l'extérieur, mais ce qui s'y passe vraiment. Ce premier récit demande un peu de temps. Il fait déjà partie du travail.
           </p>
         </div>
+      </div>
+
+      <!-- EXEMPLE DE FORMATION — bloc additif, voir la feuille correspondante en fin de head -->
+      <div class="exemple-formation reveal">
+        <span class="section-tag">Un exemple, en entier</span>
+        <h3 class="exemple-titre">Faire corps</h3>
+        <p class="exemple-cadre">Deux jours · 8 à 14 personnes · le souffle, des bâtons de bambou, la voix</p>
+        <p class="exemple-texte">
+          Les six terrains ci-dessus ne disent ni la durée, ni le nombre de personnes, ni ce qui se passe réellement dans la salle. Voici donc un atelier écrit en entier : ce qu'on y fait heure par heure, dans quel ordre, et ce que chaque exercice met en jeu. Il porte sur le sentiment d'appartenir à un collectif — et sur ce qui se remet à circuler quand un groupe fait ensemble quelque chose qui sonne juste.
+        </p>
+        <a href="faire-corps.pdf" class="exemple-lien" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16.5 6.75 11.25l1.4-1.45 2.85 2.85V3h2v9.65l2.85-2.85 1.4 1.45L12 16.5ZM5 21c-.55 0-1.02-.2-1.41-.59C3.2 20.02 3 19.55 3 19v-3.5h2V19h14v-3.5h2V19c0 .55-.2 1.02-.59 1.41-.39.39-.86.59-1.41.59H5Z"/></svg>
+          Lire le programme
+        </a>
+        <p class="exemple-poids">PDF, deux pages</p>
       </div>
     </section>
 
