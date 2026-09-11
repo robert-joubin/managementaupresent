@@ -636,6 +636,12 @@
     .hero-citation blockquote{font-size:1.08rem;line-height:1.6}
   }
 </style>
+<!-- HERO NOIR FRANC — bloc additif. Retire le trait vertical et les deux
+     halos de lumière du hero. Le supprimer les restitue. -->
+<style>
+  #hero{background:var(--nuit) !important}
+  #hero::before,#hero::after{display:none !important}
+</style>
 </head>
 <body>
 
